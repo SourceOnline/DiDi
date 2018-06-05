@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.ApitokenDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.ApitokenDO">
+		select `tokenId`,`userId`,`loginTime`,`logoutTime`,`status`,`DeviceId`,`Enable` from sys_apitoken where tokenId = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.ApitokenDO">
+		select `tokenId`,`userId`,`loginTime`,`logoutTime`,`status`,`DeviceId`,`Enable` from sys_apitoken
+        <where>  
+		  		  <if test="tokenid != null and tokenid != ''"> and tokenId = #{tokenid} </if>
+		  		  <if test="userid != null and userid != ''"> and userId = #{userid} </if>
+		  		  <if test="logintime != null and logintime != ''"> and loginTime = #{logintime} </if>
+		  		  <if test="logouttime != null and logouttime != ''"> and logoutTime = #{logouttime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="deviceid != null and deviceid != ''"> and DeviceId = #{deviceid} </if>
+		  		  <if test="enable != null and enable != ''"> and Enable = #{enable} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by tokenId desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_apitoken
+		 <where>  
+		  		  <if test="tokenid != null and tokenid != ''"> and tokenId = #{tokenid} </if>
+		  		  <if test="userid != null and userid != ''"> and userId = #{userid} </if>
+		  		  <if test="logintime != null and logintime != ''"> and loginTime = #{logintime} </if>
+		  		  <if test="logouttime != null and logouttime != ''"> and logoutTime = #{logouttime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="deviceid != null and deviceid != ''"> and DeviceId = #{deviceid} </if>
+		  		  <if test="enable != null and enable != ''"> and Enable = #{enable} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.ApitokenDO">
+		insert into sys_apitoken
+		(
+			`tokenId`, 
+			`userId`, 
+			`loginTime`, 
+			`logoutTime`, 
+			`status`, 
+			`DeviceId`, 
+			`Enable`
+		)
+		values
+		(
+			#{tokenid}, 
+			#{userid}, 
+			#{logintime}, 
+			#{logouttime}, 
+			#{status}, 
+			#{deviceid}, 
+			#{enable}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.ApitokenDO">
+		update sys_apitoken 
+		<set>
+			<if test="userid != null">`userId` = #{userid}, </if>
+			<if test="logintime != null">`loginTime` = #{logintime}, </if>
+			<if test="logouttime != null">`logoutTime` = #{logouttime}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="deviceid != null">`DeviceId` = #{deviceid}, </if>
+			<if test="enable != null">`Enable` = #{enable}</if>
+		</set>
+		where tokenId = #{tokenid}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_apitoken where tokenId = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_apitoken where tokenId in 
+		<foreach item="tokenid" collection="array" open="(" separator="," close=")">
+			#{tokenid}
+		</foreach>
+	</delete>
+
+</mapper>

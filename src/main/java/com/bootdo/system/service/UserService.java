@@ -51,4 +51,9 @@ public interface UserService {
 	 * @throws Exception
 	 */
     Map<String, Object> updatePersonalImg(MultipartFile file, String avatar_data, Long userId) throws Exception;
+    
+    /**
+     * api验证登陆身份，没有则自动登陆
+     * */
+    public void checkIfLogin(long userId);
 }

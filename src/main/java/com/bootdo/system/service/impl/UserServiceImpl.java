@@ -2,21 +2,39 @@ package com.bootdo.system.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
-import com.bootdo.common.config.BootdoConfig;
-import com.bootdo.common.domain.FileDO;
-import com.bootdo.common.service.FileService;
-import com.bootdo.common.utils.*;
-import com.bootdo.system.vo.UserVO;
+import javax.imageio.ImageIO;
+
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.bootdo.common.config.BootdoConfig;
+import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.domain.Tree;
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.BuildTree;
+import com.bootdo.common.utils.FileType;
+import com.bootdo.common.utils.FileUtil;
+import com.bootdo.common.utils.ImageUtils;
+import com.bootdo.common.utils.MD5Utils;
+import com.bootdo.common.utils.R;
+import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.system.dao.DeptDao;
 import com.bootdo.system.dao.UserDao;
 import com.bootdo.system.dao.UserRoleDao;
@@ -24,9 +42,7 @@ import com.bootdo.system.domain.DeptDO;
 import com.bootdo.system.domain.UserDO;
 import com.bootdo.system.domain.UserRoleDO;
 import com.bootdo.system.service.UserService;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
+import com.bootdo.system.vo.UserVO;
 
 @Transactional
 @Service
@@ -235,5 +251,24 @@ public class UserServiceImpl implements UserService {
 		}
 		return result;
     }
+
+	@Override
+	public void checkIfLogin(long userId) {
+		UserDO user = ShiroUtils.getUser();
+		if (null == user) {
+			System.out.println("null user");
+			user = get(userId);
+			if (null != user) {
+				System.out.println("has user");
+				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+				Subject subject = SecurityUtils.getSubject();
+				try {
+					subject.login(token);
+				} catch (AuthenticationException e) {
+				}
+			}
+		}
+	}
+
 
 }

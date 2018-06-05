@@ -177,6 +177,7 @@ public class UserController extends BaseController {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
 		try{
+			System.out.println(getUser().toString());
 			userService.resetPwd(userVO,getUser());
 			return R.ok();
 		}catch (Exception e){
