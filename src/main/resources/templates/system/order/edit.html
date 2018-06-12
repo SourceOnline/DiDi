@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<!--<input id="order_id" name="order_id" th:value="${order.order_id}"  type="hidden">-->
+						<input id="orderId" name="orderId" th:value="${order.orderId}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">科目id：</label>
+								<div class="col-sm-8">
+									<input id="subjectId" name="subjectId" th:value="${order.subjectId}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">学员id：</label>
+								<div class="col-sm-8">
+									<input id="learnUser" name="learnUser" th:value="${order.learnUser}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">教员id：</label>
+								<div class="col-sm-8">
+									<input id="teacherUser" name="teacherUser" th:value="${order.teacherUser}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">年级：</label>
+								<div class="col-sm-8">
+									<input id="grade" name="grade" th:value="${order.grade}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">开始时间：</label>
+								<div class="col-sm-8">
+									<input id="start" name="start" th:value="${order.start}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">结束时间：</label>
+								<div class="col-sm-8">
+									<input id="end" name="end" th:value="${order.end}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">地址：</label>
+								<div class="col-sm-8">
+									<input id="address" name="address" th:value="${order.address}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">地址坐标x：</label>
+								<div class="col-sm-8">
+									<input id="addressX" name="addressX" th:value="${order.addressX}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">地址坐标x：</label>
+								<div class="col-sm-8">
+									<input id="addressY" name="addressY" th:value="${order.addressY}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">价格：</label>
+								<div class="col-sm-8">
+									<input id="price" name="price" th:value="${order.price}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="message" name="message" th:value="${order.message}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">评价：</label>
+								<div class="col-sm-8">
+									<input id="evaluate" name="evaluate" th:value="${order.evaluate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">订单状态：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" th:value="${order.status}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">添加时间：</label>
+								<div class="col-sm-8">
+									<input id="addtime" name="addtime" th:value="${order.addtime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">是否删除：</label>
+								<div class="col-sm-8">
+									<input id="enable" name="enable" th:value="${order.enable}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/order/edit.js">
+	</script>
+</body>
+</html>

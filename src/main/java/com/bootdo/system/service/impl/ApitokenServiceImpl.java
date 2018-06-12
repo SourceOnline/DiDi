@@ -75,17 +75,17 @@ public class ApitokenServiceImpl implements ApitokenService {
 	public String saveLogin(long userId) {
 		ApitokenDO apitoken = (ApitokenDO) findByUserId(userId);
 		if(null!=apitoken){
-			apitoken.setLogintime(new Date());
+			apitoken.setLoginTime(new Date());
 			update(apitoken);
 		}else{
 			apitoken = new ApitokenDO();
-			apitoken.setTokenid(IdUtils.getId());
-			apitoken.setUserid(userId);
-			apitoken.setLogintime(new Date());
+			apitoken.setTokenId(IdUtils.getId());
+			apitoken.setUserId(userId);
+			apitoken.setLoginTime(new Date());
 			apitoken.setStatus(1);
 			save(apitoken);
 		}
-		return apitoken.getTokenid();
+		return apitoken.getTokenId();
 	}
 
 	@Override

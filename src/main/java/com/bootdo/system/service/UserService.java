@@ -56,4 +56,14 @@ public interface UserService {
      * api验证登陆身份，没有则自动登陆
      * */
     public void checkIfLogin(long userId);
+    
+    /**
+     * 普通用户成为教员
+     * */
+    public String toTeacher(long userId);
+    
+    /**
+     * 判断是否是教员
+     * */
+    public Boolean checkIfTeacher(long userId);
 }

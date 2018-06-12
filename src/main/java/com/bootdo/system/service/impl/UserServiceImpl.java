@@ -24,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bootdo.api.commen.Constants;
 import com.bootdo.common.config.BootdoConfig;
+import com.bootdo.common.config.Constant;
 import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.domain.Tree;
 import com.bootdo.common.service.FileService;
@@ -63,8 +65,10 @@ public class UserServiceImpl implements UserService {
 	public UserDO get(Long id) {
 		List<Long> roleIds = userRoleMapper.listRoleId(id);
 		UserDO user = userMapper.get(id);
-		user.setDeptName(deptMapper.get(user.getDeptId()).getName());
-		user.setRoleIds(roleIds);
+		if(null!=user){
+			user.setDeptName(deptMapper.get(user.getDeptId()).getName());
+			user.setRoleIds(roleIds);
+		}
 		return user;
 	}
 
@@ -135,9 +139,14 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	/**
+	 * 后台用户修改密码
+	 * */
 	@Override
 	public int resetPwd(UserVO userVO,UserDO userDO) throws Exception {
+		//判断用户是否一致
 		if(Objects.equals(userVO.getUserDO().getUserId(),userDO.getUserId())){
+			//判断旧密码是否一致
 			if(Objects.equals(MD5Utils.encrypt(userDO.getUsername(),userVO.getPwdOld()),userDO.getPassword())){
 				userDO.setPassword(MD5Utils.encrypt(userDO.getUsername(),userVO.getPwdNew()));
 				return userMapper.update(userDO);
@@ -148,6 +157,10 @@ public class UserServiceImpl implements UserService {
 			throw new Exception("你修改的不是你登录的账号！");
 		}
 	}
+	
+	/**
+	 * 管理员修改他人密码
+	 * */
 	@Override
 	public int adminResetPwd(UserVO userVO) throws Exception {
 		UserDO userDO =get(userVO.getUserDO().getUserId());
@@ -252,14 +265,15 @@ public class UserServiceImpl implements UserService {
 		return result;
     }
 
+    /**
+     * app检测用户是否保持登陆，没有则重新登陆（不验证token）
+     * */
 	@Override
 	public void checkIfLogin(long userId) {
 		UserDO user = ShiroUtils.getUser();
 		if (null == user) {
-			System.out.println("null user");
 			user = get(userId);
 			if (null != user) {
-				System.out.println("has user");
 				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
 				Subject subject = SecurityUtils.getSubject();
 				try {
@@ -268,6 +282,36 @@ public class UserServiceImpl implements UserService {
 				}
 			}
 		}
+	}
+
+    /**
+     * 普通用户成为教员
+     * */
+	@Override
+	public String toTeacher(long userId) {
+		if(checkIfTeacher(userId)){
+			return "已经成为教员";
+		}
+		UserRoleDO ur = new UserRoleDO();
+		ur.setUserId(userId);
+		ur.setRoleId(Constant.ROLE_TEACHER);
+		userRoleMapper.save(ur);
+		return null;
+	}
+
+	/** 
+	 * 判断是否是教员
+	 */
+	@Override
+	public Boolean checkIfTeacher(long userId) {
+		Map<String, Object> userrole = new HashMap<>(16);
+		userrole.put("userId", userId);
+		userrole.put("roleId", Constant.ROLE_TEACHER);
+		List<UserRoleDO> list = userRoleMapper.list(userrole);
+		if(null!=list&&list.size()>0){
+			return true;
+		}
+		return false;
 	}
 
 

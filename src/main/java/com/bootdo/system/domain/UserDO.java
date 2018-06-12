@@ -33,6 +33,8 @@ public class UserDO implements Serializable {
     private Date gmtModified;
     //角色
     private List<Long> roleIds;
+    //是否是教师
+    private boolean isTeacher;
     //性别
     private Long sex;
     //出身日期
@@ -218,6 +220,14 @@ public class UserDO implements Serializable {
     public void setDistrict(String district) {
         this.district = district;
     }
+    
+	public boolean isTeacher() {
+		return isTeacher;
+	}
+
+	public void setTeacher(boolean isTeacher) {
+		this.isTeacher = isTeacher;
+	}
 
     @Override
     public String toString() {
@@ -245,4 +255,5 @@ public class UserDO implements Serializable {
                 ", district='" + district + '\'' +
                 '}';
     }
+
 }

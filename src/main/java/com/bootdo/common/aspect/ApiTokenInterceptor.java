@@ -30,7 +30,7 @@ public class ApiTokenInterceptor implements HandlerInterceptor {
 	@Autowired
 	private ApitokenService apitokenService;
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	// 在业务处理器处理请求之前被调用
 	@Override
@@ -42,8 +42,9 @@ System.out.println("token : " + tokenid);
 		if (null != tokenid) {
 			ApitokenDO apitoken = apitokenService.get(tokenid);
 			if (null != apitoken && apitoken.getStatus().equals(1)) {
-				UserDO user = userService.get(apitoken.getUserid());
+				UserDO user = userService.get(apitoken.getUserId());
 				if (null != user) {
+					user.setTeacher(userService.checkIfTeacher(user.getUserId()));
 					request.setAttribute("user", user);
 System.out.println("api 登陆拦截通过~");
 					// 判断是否需要重新登陆

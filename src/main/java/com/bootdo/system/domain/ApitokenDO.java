@@ -8,75 +8,75 @@ import java.util.Date;
 /**
  * 
  * 
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2018-06-04 09:44:59
+ * @author geyy
+ * @email geyueyuan@qq.com
+ * @date 2018-06-08 09:59:42
  */
 public class ApitokenDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
-	private String tokenid;
+	private String tokenId;
 	//
-	private Long userid;
+	private Long userId;
 	//
-	private Date logintime;
+	private Date loginTime;
 	//
-	private Date logouttime;
+	private Date logoutTime;
 	//
 	private Integer status;
 	//
-	private String deviceid;
+	private String deviceId;
 	//
 	private Integer enable;
 
 	/**
 	 * 设置：
 	 */
-	public void setTokenid(String tokenid) {
-		this.tokenid = tokenid;
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
 	}
 	/**
 	 * 获取：
 	 */
-	public String getTokenid() {
-		return tokenid;
+	public String getTokenId() {
+		return tokenId;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setUserid(Long userid) {
-		this.userid = userid;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 	/**
 	 * 获取：
 	 */
-	public Long getUserid() {
-		return userid;
+	public Long getUserId() {
+		return userId;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setLogintime(Date logintime) {
-		this.logintime = logintime;
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
 	}
 	/**
 	 * 获取：
 	 */
-	public Date getLogintime() {
-		return logintime;
+	public Date getLoginTime() {
+		return loginTime;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setLogouttime(Date logouttime) {
-		this.logouttime = logouttime;
+	public void setLogoutTime(Date logoutTime) {
+		this.logoutTime = logoutTime;
 	}
 	/**
 	 * 获取：
 	 */
-	public Date getLogouttime() {
-		return logouttime;
+	public Date getLogoutTime() {
+		return logoutTime;
 	}
 	/**
 	 * 设置：
@@ -93,14 +93,14 @@ public class ApitokenDO implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setDeviceid(String deviceid) {
-		this.deviceid = deviceid;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 	/**
 	 * 获取：
 	 */
-	public String getDeviceid() {
-		return deviceid;
+	public String getDeviceId() {
+		return deviceId;
 	}
 	/**
 	 * 设置：
@@ -113,5 +113,21 @@ public class ApitokenDO implements Serializable {
 	 */
 	public Integer getEnable() {
 		return enable;
+	}
+
+	@Override
+	public String toString() {
+		return "ApitokenDO{" +
+				"aa=aa"+
+				
+			", tokenId=" + tokenId +
+			", userId=" + userId +
+			", loginTime=" + loginTime +
+			", logoutTime=" + logoutTime +
+			", status=" + status +
+			", deviceId=" + deviceId +
+			", enable=" + enable +
+					
+				'}';
 	}
 }

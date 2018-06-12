@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.AddressDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.AddressDO">
+		select `address_id`,`user_id`,`type`,`longitude`,`latitude`,`addtime`,`enable` from sys_address where address_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.AddressDO">
+		select `address_id`,`user_id`,`type`,`longitude`,`latitude`,`addtime`,`enable` from sys_address
+        <where>  
+		  		  <if test="addressId != null and addressId != ''"> and address_id = #{addressId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="longitude != null and longitude != ''"> and longitude = #{longitude} </if>
+		  		  <if test="latitude != null and latitude != ''"> and latitude = #{latitude} </if>
+		  		  
+		  		  <if test="minlat != null and minlat != ''"> and latitude &gt;= #{minlat} </if>
+		  		  <if test="maxlat != null and maxlat != ''"> and latitude &lt;= #{maxlat} </if>
+		  		  <if test="minlng != null and minlng != ''"> and longitude &gt;= #{minlng} </if>
+		  		  <if test="maxlng != null and maxlng != ''"> and longitude &lt;= #{maxlng} </if>
+		  		  
+		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
+		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by address_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_address
+		 <where>  
+		  		  <if test="addressId != null and addressId != ''"> and address_id = #{addressId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="longitude != null and longitude != ''"> and longitude = #{longitude} </if>
+		  		  <if test="latitude != null and latitude != ''"> and latitude = #{latitude} </if>
+		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
+		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.AddressDO" useGeneratedKeys="true" keyProperty="addressId">
+		insert into sys_address
+		(
+			`user_id`, 
+			`type`, 
+			`longitude`, 
+			`latitude`, 
+			`addtime`, 
+			`enable`
+		)
+		values
+		(
+			#{userId}, 
+			#{type}, 
+			#{longitude}, 
+			#{latitude}, 
+			#{addtime}, 
+			#{enable}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.AddressDO">
+		update sys_address 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="longitude != null">`longitude` = #{longitude}, </if>
+			<if test="latitude != null">`latitude` = #{latitude}, </if>
+			<if test="addtime != null">`addtime` = #{addtime}, </if>
+			<if test="enable != null">`enable` = #{enable}</if>
+		</set>
+		where address_id = #{addressId}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_address where address_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_address where address_id in 
+		<foreach item="addressId" collection="array" open="(" separator="," close=")">
+			#{addressId}
+		</foreach>
+	</delete>
+
+</mapper>

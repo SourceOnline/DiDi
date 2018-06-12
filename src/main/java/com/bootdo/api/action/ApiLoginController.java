@@ -1,4 +1,4 @@
-package com.bootdo.api.v1;
+package com.bootdo.api.action;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Update;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -35,8 +34,11 @@ public class ApiLoginController extends ApiBaseController{
 	
 	@Log("app登陆")
 	@GetMapping("/login")
-	public JsonModel login(@RequestParam("username")String username, @RequestParam("password")String password){
-		System.out.println("applogin------------");
+	public JsonModel login(String username, String password){
+		String flag = ApiCheckNull.login(username, password);
+		if(null!=flag){
+			return failure(flag);
+		}
 		password = MD5Utils.encrypt(username,password);
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		Subject subject = SecurityUtils.getSubject();
@@ -44,7 +46,7 @@ public class ApiLoginController extends ApiBaseController{
 			subject.login(token);
 			long uid = ShiroUtils.getUser().getUserId();
 			String tokenId = apitokenService.saveLogin(uid);
-			return success("登陆成功！");
+			return successMap("登陆成功","token", tokenId);
 		} catch (AuthenticationException e) {
 			return failure("用户或密码错误");
 		}
@@ -54,7 +56,6 @@ public class ApiLoginController extends ApiBaseController{
 	@Log("app注册用户")
 	@GetMapping("/register")
 	public JsonModel register(UserDO user){
-		System.out.println("register----------------");
 		String flag = ApiCheckNull.register(user);
 		if(null!=flag){
 			return failure(flag);

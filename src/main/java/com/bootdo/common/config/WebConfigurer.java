@@ -23,5 +23,8 @@ class WebConfigurer extends WebMvcConfigurerAdapter {
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
          registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/user/**");
+         registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/subject/**");
+         registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/order/**");
+         registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/test/**");
     }
 }

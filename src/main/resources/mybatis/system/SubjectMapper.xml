@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.SubjectDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.SubjectDO">
+		select `subject_id`,`Name`,`Code`,`Icon`,`Type`,`addtime`,`sort`,`Enable` from sys_subject where subject_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.SubjectDO">
+		select `subject_id`,`Name`,`Code`,`Icon`,`Type`,`addtime`,`sort`,`Enable` from sys_subject
+        <where>  
+		  		  <if test="subjectId != null and subjectId != ''"> and subject_id = #{subjectId} </if>
+		  		  <if test="name != null and name != ''"> and Name = #{name} </if>
+		  		  <if test="code != null and code != ''"> and Code = #{code} </if>
+		  		  <if test="icon != null and icon != ''"> and Icon = #{icon} </if>
+		  		  <if test="type != null and type != ''"> and Type = #{type} </if>
+		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="enable != null and enable != ''"> and Enable = #{enable} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by sort asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_subject
+		 <where>  
+		  		  <if test="subjectId != null and subjectId != ''"> and subject_id = #{subjectId} </if>
+		  		  <if test="name != null and name != ''"> and Name = #{name} </if>
+		  		  <if test="code != null and code != ''"> and Code = #{code} </if>
+		  		  <if test="icon != null and icon != ''"> and Icon = #{icon} </if>
+		  		  <if test="type != null and type != ''"> and Type = #{type} </if>
+		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="enable != null and enable != ''"> and Enable = #{enable} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.SubjectDO">
+		insert into sys_subject
+		(
+			`subject_id`, 
+			`Name`, 
+			`Code`, 
+			`Icon`, 
+			`Type`, 
+			`addtime`, 
+			`sort`, 
+			`Enable`
+		)
+		values
+		(
+			#{subjectId}, 
+			#{name}, 
+			#{code}, 
+			#{icon}, 
+			#{type}, 
+			#{addtime}, 
+			#{sort}, 
+			#{enable}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.SubjectDO">
+		update sys_subject 
+		<set>
+			<if test="name != null">`Name` = #{name}, </if>
+			<if test="code != null">`Code` = #{code}, </if>
+			<if test="icon != null">`Icon` = #{icon}, </if>
+			<if test="type != null">`Type` = #{type}, </if>
+			<if test="addtime != null">`addtime` = #{addtime}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="enable != null">`Enable` = #{enable}</if>
+		</set>
+		where subject_id = #{subjectId}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_subject where subject_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_subject where subject_id in 
+		<foreach item="subjectId" collection="array" open="(" separator="," close=")">
+			#{subjectId}
+		</foreach>
+	</delete>
+
+</mapper>

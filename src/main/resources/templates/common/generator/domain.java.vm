@@ -37,4 +37,16 @@ public class ${className}DO implements Serializable {
 		return $column.attrname;
 	}
 #end
+
+	@Override
+	public String toString() {
+		return "${className}DO{" +
+				"aa=aa"+
+				
+	#foreach ($column in $columns)
+		", $column.attrname=" + $column.attrname +
+	#end
+				
+				'}';
+	}
 }

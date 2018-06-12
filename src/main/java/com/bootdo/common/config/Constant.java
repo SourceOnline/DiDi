@@ -19,6 +19,20 @@ public class Constant {
     public static String CACHE_TYPE_REDIS ="redis";
 
     public static String LOG_ERROR = "error";
-
     
+    //数据状态（是否存在）
+    public static final int ENABLE_EXIST = 1;
+    public static final int ENABLE_DELETE = 0;
+
+    //角色身份以及id（long）
+    public static final long ROLE_TEACHER = 2L;//教员身份，也是教员身份id
+    public static final long ROLE_STUDENT = 3L;//学员身份，也是学员身份id
+    
+    //订单状态
+    public static final int ORDER_STATUS_UNDO = 0;// 未处理
+    public final static int ORDER_STATUS_ON = 1; // 接单中
+    public final static int ORDER_STATUS_FINISH = 2; // 已完成
+	public final static int ORDER_STATUS_CANCLE = 3; // 撤销
+	public final static int ORDER_STATUS_DELETE = 4; // 已删除
+	public final static int ORDER_STATUS_ADVANCE = 5; // 预约某人
 }
