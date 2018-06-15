@@ -70,6 +70,9 @@ public class ApiOrderControllser extends ApiBaseController{
 					}else{
 						entity.setAvatar("");
 					}
+					entity.setUserName(user.getName());
+					entity.setMsg("该用户很懒，没有留下什么信息");
+					entity.setPrice("未定");
 					teachers.add(entity);
 				}
 			}

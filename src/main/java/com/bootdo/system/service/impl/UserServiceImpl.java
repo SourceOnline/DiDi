@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.druid.util.StringUtils;
 import com.bootdo.api.commen.Constants;
 import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.config.Constant;
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
 	public UserDO get(Long id) {
 		List<Long> roleIds = userRoleMapper.listRoleId(id);
 		UserDO user = userMapper.get(id);
-		if(null!=user){
+		if(null!=user&&0!=user.getDeptId()){
 			user.setDeptName(deptMapper.get(user.getDeptId()).getName());
 			user.setRoleIds(roleIds);
 		}
