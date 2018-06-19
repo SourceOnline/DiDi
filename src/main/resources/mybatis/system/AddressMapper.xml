@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.system.dao.AddressDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.AddressDO">
-		select `address_id`,`user_id`,`type`,`longitude`,`latitude`,`addtime`,`enable` from sys_address where address_id = #{value}
+		select `address_id`,`user_id`,`type`,`longitude`,`latitude`,`message`,`detault`,`addtime`,`enable` from sys_address where address_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.AddressDO">
-		select `address_id`,`user_id`,`type`,`longitude`,`latitude`,`addtime`,`enable` from sys_address
+		select `address_id`,`user_id`,`type`,`longitude`,`latitude`,`message`,`detault`,`addtime`,`enable` from sys_address
         <where>  
 		  		  <if test="addressId != null and addressId != ''"> and address_id = #{addressId} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
@@ -19,8 +19,10 @@
 		  		  <if test="minlat != null and minlat != ''"> and latitude &gt;= #{minlat} </if>
 		  		  <if test="maxlat != null and maxlat != ''"> and latitude &lt;= #{maxlat} </if>
 		  		  <if test="minlng != null and minlng != ''"> and longitude &gt;= #{minlng} </if>
-		  		  <if test="maxlng != null and maxlng != ''"> and longitude &lt;= #{maxlng} </if>
+		  		  <if test="maxlng != null and maxlng != ''"> and longitude &lt;= #{maxlng} </if>		  		  
 		  		  
+		  		  <if test="message != null and message != ''"> and message = #{message} </if>
+		  		  <if test="detault != null and detault != ''"> and detault = #{detault} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
 		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
 		  		</where>
@@ -45,6 +47,8 @@
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  		  <if test="longitude != null and longitude != ''"> and longitude = #{longitude} </if>
 		  		  <if test="latitude != null and latitude != ''"> and latitude = #{latitude} </if>
+		  		  <if test="message != null and message != ''"> and message = #{message} </if>
+		  		  <if test="detault != null and detault != ''"> and detault = #{detault} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
 		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
 		  		</where>
@@ -57,6 +61,8 @@
 			`type`, 
 			`longitude`, 
 			`latitude`, 
+			`message`, 
+			`detault`, 
 			`addtime`, 
 			`enable`
 		)
@@ -66,6 +72,8 @@
 			#{type}, 
 			#{longitude}, 
 			#{latitude}, 
+			#{message}, 
+			#{detault}, 
 			#{addtime}, 
 			#{enable}
 		)
@@ -78,6 +86,8 @@
 			<if test="type != null">`type` = #{type}, </if>
 			<if test="longitude != null">`longitude` = #{longitude}, </if>
 			<if test="latitude != null">`latitude` = #{latitude}, </if>
+			<if test="message != null">`message` = #{message}, </if>
+			<if test="detault != null">`detault` = #{detault}, </if>
 			<if test="addtime != null">`addtime` = #{addtime}, </if>
 			<if test="enable != null">`enable` = #{enable}</if>
 		</set>

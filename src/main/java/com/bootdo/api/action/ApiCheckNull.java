@@ -41,12 +41,15 @@ public class ApiCheckNull {
 		return null;
 	}
 	
-	public static String setHome(Float longitude, Float latitude){
+	public static String setHome(Float longitude, Float latitude,String message){
 		if(longitude<-180||longitude>180){
 			return "经度不合法";
 		}
 		if(latitude<-90||latitude>90){
 			return "维度不合法";
+		}
+		if(StringUtils.isEmpty(message)){
+			return "详细地址不为空";
 		}
 		return null;
 	}

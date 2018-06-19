@@ -44,6 +44,7 @@ System.out.println("token : " + tokenid);
 			if (null != apitoken && apitoken.getStatus().equals(1)) {
 				UserDO user = userService.get(apitoken.getUserId());
 				if (null != user) {
+					System.out.println(user.toString());
 					user.setTeacher(userService.checkIfTeacher(user.getUserId()));
 					request.setAttribute("user", user);
 System.out.println("api 登陆拦截通过~");
