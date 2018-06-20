@@ -66,7 +66,7 @@ public class ApiOrderControllser extends ApiBaseController{
 					//用户头像
 					FileDO fileDO = fileService.get(user.getPicId());
 					if(null!=fileDO){
-						entity.setAvatar(fileDO.getUrl());
+						entity.setAvatar(getUploadPath()+fileDO.getUrl());
 					}else{
 						entity.setAvatar("");
 					}

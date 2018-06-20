@@ -103,4 +103,11 @@ public class ApiCheckNull {
 		}
 		return null;
 	}
+	
+	public static String teacherDetail(long userId){
+		if(0==userId){
+			return "userId不为空";
+		}
+		return null;
+	}
 }
