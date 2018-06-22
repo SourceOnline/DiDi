@@ -37,9 +37,6 @@ public class ApiTokenInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		request.setAttribute("startTime", new Date().getTime());
-		StringBuffer temp = request.getRequestURL();
-		String path = temp.toString();
-System.out.println("path : "+path);
 		String tokenid = request.getParameter("token");
 System.out.println("token : " + tokenid);
 		if (null != tokenid) {

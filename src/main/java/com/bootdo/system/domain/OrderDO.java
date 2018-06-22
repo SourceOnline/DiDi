@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author geyy
  * @email geyueyuan@qq.com
- * @date 2018-06-07 15:58:21
+ * @date 2018-06-22 10:25:37
  */
 public class OrderDO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,24 +19,30 @@ public class OrderDO implements Serializable {
 	private Long orderId;
 	//科目id
 	private String subjectId;
+	//科目，中文
+	private String subject;
 	//学员id
 	private Long learnUser;
 	//教员id
 	private Long teacherUser;
 	//年级
-	private Integer grade;
+	private String grade;
 	//开始时间
 	private Date start;
 	//结束时间
 	private Date end;
 	//地址
 	private String address;
+	//地址id
+	private Long addressId;
 	//地址坐标x
 	private Float addressX;
 	//地址坐标x
 	private Float addressY;
 	//价格
 	private String price;
+	//授课时间
+	private String learnTime;
 	//备注
 	private String message;
 	//评价
@@ -73,6 +79,18 @@ public class OrderDO implements Serializable {
 		return subjectId;
 	}
 	/**
+	 * 设置：科目，中文
+	 */
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	/**
+	 * 获取：科目，中文
+	 */
+	public String getSubject() {
+		return subject;
+	}
+	/**
 	 * 设置：学员id
 	 */
 	public void setLearnUser(Long learnUser) {
@@ -99,13 +117,13 @@ public class OrderDO implements Serializable {
 	/**
 	 * 设置：年级
 	 */
-	public void setGrade(Integer grade) {
+	public void setGrade(String grade) {
 		this.grade = grade;
 	}
 	/**
 	 * 获取：年级
 	 */
-	public Integer getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 	/**
@@ -145,6 +163,18 @@ public class OrderDO implements Serializable {
 		return address;
 	}
 	/**
+	 * 设置：地址id
+	 */
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
+	}
+	/**
+	 * 获取：地址id
+	 */
+	public Long getAddressId() {
+		return addressId;
+	}
+	/**
 	 * 设置：地址坐标x
 	 */
 	public void setAddressX(Float addressX) {
@@ -179,6 +209,18 @@ public class OrderDO implements Serializable {
 	 */
 	public String getPrice() {
 		return price;
+	}
+	/**
+	 * 设置：授课时间
+	 */
+	public void setLearnTime(String learnTime) {
+		this.learnTime = learnTime;
+	}
+	/**
+	 * 获取：授课时间
+	 */
+	public String getLearnTime() {
+		return learnTime;
 	}
 	/**
 	 * 设置：备注
@@ -222,7 +264,6 @@ public class OrderDO implements Serializable {
 	public void setAddtime(Date addtime) {
 		this.addtime = addtime;
 	}
-	
 	/**
 	 * 获取：添加时间
 	 */
@@ -249,15 +290,18 @@ public class OrderDO implements Serializable {
 				
 			", orderId=" + orderId +
 			", subjectId=" + subjectId +
+			", subject=" + subject +
 			", learnUser=" + learnUser +
 			", teacherUser=" + teacherUser +
 			", grade=" + grade +
 			", start=" + start +
 			", end=" + end +
 			", address=" + address +
+			", addressId=" + addressId +
 			", addressX=" + addressX +
 			", addressY=" + addressY +
 			", price=" + price +
+			", learnTime=" + learnTime +
 			", message=" + message +
 			", evaluate=" + evaluate +
 			", status=" + status +

@@ -1,4 +1,4 @@
-package com.bootdo.api.action;
+package com.bootdo.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

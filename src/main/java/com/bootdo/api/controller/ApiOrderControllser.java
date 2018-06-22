@@ -1,4 +1,4 @@
-package com.bootdo.api.action;
+package com.bootdo.api.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +87,16 @@ public class ApiOrderControllser extends ApiBaseController{
 		if(null!=flag){
 			return failure(flag);
 		}
+		AddressDO addressDO = addressService.get(order.getAddressId());
+		if(null==addressDO){
+			return failure("地址有误");
+		}
+		if(null!=order.getTeacherUser()&&0==order.getTeacherUser()){
+			order.setTeacherUser(null);
+		}
+		order.setAddressX(addressDO.getLongitude());
+		order.setAddressY(addressDO.getLatitude());
+		order.setAddress(addressDO.getMessage());
 		order.setLearnUser(getUserId());
 		order.setStatus(Constant.ORDER_STATUS_UNDO);//未处理状态
 		order.setAddtime(new Date());

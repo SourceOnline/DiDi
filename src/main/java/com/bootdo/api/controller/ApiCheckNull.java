@@ -1,4 +1,4 @@
-package com.bootdo.api.action;
+package com.bootdo.api.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.bootdo.system.domain.AddressDO;
@@ -65,19 +65,19 @@ public class ApiCheckNull {
 	}
 	
 	public static String askForTeach(OrderDO od){
-		if(od.getAddressX()<-180||od.getAddressX()>180){
-			return "经度不合法";
+//		if(od.getAddressX()<-180||od.getAddressX()>180){
+//			return "经度不合法";
+//		}
+//		if(od.getAddressY()<-90||od.getAddressY()>90){
+//			return "维度不合法";
+//		}
+		if(0==od.getAddressId()){
+			return "地址不为空";
 		}
-		if(od.getAddressY()<-90||od.getAddressY()>90){
-			return "维度不合法";
-		}
-		if(StringUtils.isEmpty(od.getAddress())){
-			return "详细地址不为空";
-		}
-		if(StringUtils.isEmpty(od.getSubjectId())){
+		if(StringUtils.isEmpty(od.getSubject())){
 			return "科目不为空";
 		}
-		if(0==od.getGrade()){
+		if(StringUtils.isEmpty(od.getGrade())){
 			return "年级不为空";
 		}
 		return null;

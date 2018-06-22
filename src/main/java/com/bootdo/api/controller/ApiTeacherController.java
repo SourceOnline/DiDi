@@ -1,4 +1,4 @@
-package com.bootdo.api.action;
+package com.bootdo.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +37,12 @@ public class ApiTeacherController extends ApiAddressController{
 		//用户头像
 		FileDO fileDO = fileService.get(user.getPicId());
 		if(null!=fileDO){
+			backEntity.setAvatar("file:///"+getUploadPath()+fileDO.getUrl());
 		}else{
 			backEntity.setAvatar("");
 		}
 		System.out.println(getPath());
+		System.out.println();
 		
 		return successMap("teacher", backEntity);
 	}
