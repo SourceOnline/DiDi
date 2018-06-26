@@ -41,15 +41,21 @@ public class ApiCheckNull {
 		return null;
 	}
 	
-	public static String setHome(Float longitude, Float latitude,String message){
-		if(longitude<-180||longitude>180){
+	public static String setHome(AddressDO address){
+		if(address.getLongitude()<-180||address.getLongitude()>180){
 			return "经度不合法";
 		}
-		if(latitude<-90||latitude>90){
+		if(address.getLatitude()<-90||address.getLatitude()>90){
 			return "维度不合法";
 		}
-		if(StringUtils.isEmpty(message)){
+		if(StringUtils.isEmpty(address.getAddressName())){
+			return "地址名称不为空";
+		}
+		if(StringUtils.isEmpty(address.getAddressDetail())){
 			return "详细地址不为空";
+		}
+		if(StringUtils.isEmpty(address.getDoor())){
+			return "门号地址不为空";
 		}
 		return null;
 	}
@@ -107,6 +113,20 @@ public class ApiCheckNull {
 	public static String teacherDetail(long userId){
 		if(0==userId){
 			return "userId不为空";
+		}
+		return null;
+	}
+	
+	public static String getDetail(long addressId){
+		if(0==addressId){
+			return "地址id不为空";
+		}
+		return null;
+	}
+	
+	public static String elete(long addressId){
+		if(0==addressId){
+			return "地址id不为空";
 		}
 		return null;
 	}

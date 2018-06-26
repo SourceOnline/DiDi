@@ -96,13 +96,16 @@ public class ApiOrderControllser extends ApiBaseController{
 		}
 		order.setAddressX(addressDO.getLongitude());
 		order.setAddressY(addressDO.getLatitude());
-		order.setAddress(addressDO.getMessage());
+		order.setAddress(addressDO.getAddressName()+" "+addressDO.getAddressDetail());
 		order.setLearnUser(getUserId());
 		order.setStatus(Constant.ORDER_STATUS_UNDO);//未处理状态
 		order.setAddtime(new Date());
 		order.setEnable(Constant.ENABLE_EXIST);
 		orderService.save(order);
 		//推送???
+		if(null==order.getTeacherUser()){
+			return success("预约成功");
+		}
 		return success("发布成功");
 	}
 	

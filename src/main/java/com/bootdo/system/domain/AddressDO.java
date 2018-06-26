@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author geyy
  * @email geyueyuan@qq.com
- * @date 2018-06-19 10:52:06
+ * @date 2018-06-25 15:59:45
  */
 public class AddressDO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,14 +19,32 @@ public class AddressDO implements Serializable {
 	private Long addressId;
 	//用户id
 	private Long userId;
+	//称呼
+	private String userName;
+	//联系电话
+	private String phone;
 	//类型
 	private String type;
 	//经度
 	private Float longitude;
 	//维度
 	private Float latitude;
+	//省份
+	private String province;
+	//城市
+	private String city;
+	//地区
+	private String district;
+	//街道
+	private String street;
+	//街道和门号
+	private String streetNumber;
+	//地址名称
+	private String addressName;
 	//详细地址
-	private String message;
+	private String addressDetail;
+	//楼栋和门号
+	private String door;
 	//默认值
 	private Integer detault;
 	//添加时间
@@ -57,6 +75,30 @@ public class AddressDO implements Serializable {
 	 */
 	public Long getUserId() {
 		return userId;
+	}
+	/**
+	 * 设置：称呼
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	/**
+	 * 获取：称呼
+	 */
+	public String getUserName() {
+		return userName;
+	}
+	/**
+	 * 设置：联系电话
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	/**
+	 * 获取：联系电话
+	 */
+	public String getPhone() {
+		return phone;
 	}
 	/**
 	 * 设置：类型
@@ -95,16 +137,100 @@ public class AddressDO implements Serializable {
 		return latitude;
 	}
 	/**
+	 * 设置：省份
+	 */
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	/**
+	 * 获取：省份
+	 */
+	public String getProvince() {
+		return province;
+	}
+	/**
+	 * 设置：城市
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+	/**
+	 * 获取：城市
+	 */
+	public String getCity() {
+		return city;
+	}
+	/**
+	 * 设置：地区
+	 */
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	/**
+	 * 获取：地区
+	 */
+	public String getDistrict() {
+		return district;
+	}
+	/**
+	 * 设置：街道
+	 */
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	/**
+	 * 获取：街道
+	 */
+	public String getStreet() {
+		return street;
+	}
+	/**
+	 * 设置：街道和门号
+	 */
+	public void setStreetNumber(String streetNumber) {
+		this.streetNumber = streetNumber;
+	}
+	/**
+	 * 获取：街道和门号
+	 */
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+	/**
+	 * 设置：地址名称
+	 */
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
+	/**
+	 * 获取：地址名称
+	 */
+	public String getAddressName() {
+		return addressName;
+	}
+	/**
 	 * 设置：详细地址
 	 */
-	public void setMessage(String message) {
-		this.message = message;
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
 	}
 	/**
 	 * 获取：详细地址
 	 */
-	public String getMessage() {
-		return message;
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+	/**
+	 * 设置：楼栋和门号
+	 */
+	public void setDoor(String door) {
+		this.door = door;
+	}
+	/**
+	 * 获取：楼栋和门号
+	 */
+	public String getDoor() {
+		return door;
 	}
 	/**
 	 * 设置：默认值
@@ -150,10 +276,19 @@ public class AddressDO implements Serializable {
 				
 			", addressId=" + addressId +
 			", userId=" + userId +
+			", userName=" + userName +
+			", phone=" + phone +
 			", type=" + type +
 			", longitude=" + longitude +
 			", latitude=" + latitude +
-			", message=" + message +
+			", province=" + province +
+			", city=" + city +
+			", district=" + district +
+			", street=" + street +
+			", streetNumber=" + streetNumber +
+			", addressName=" + addressName +
+			", addressDetail=" + addressDetail +
+			", door=" + door +
 			", detault=" + detault +
 			", addtime=" + addtime +
 			", enable=" + enable +

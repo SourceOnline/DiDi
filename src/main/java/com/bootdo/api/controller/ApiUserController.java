@@ -33,7 +33,7 @@ public class ApiUserController extends ApiBaseController{
 	private ApitokenService apitokenService;
 	
 	
-	@Log("获取用户信息")
+	@Log("app获取用户信息")
 	@GetMapping(value = "/getUser")
 	public JsonModel getUserMsg(){
 		UserDO userDO = getUser();

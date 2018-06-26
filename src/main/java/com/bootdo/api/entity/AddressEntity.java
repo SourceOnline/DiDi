@@ -12,16 +12,19 @@ public class AddressEntity {
 	private Float longitude;
 	//维度
 	private Float latitude;
-	//详细地址
+	//地点和门号
+	private String addressNameAndDoor;
+	//地址信息
 	private String message;
-	//默认值
+	//称呼和联系号码
+	private String nameAndhone;
+	//认值
 	private Integer detault;
 	
 	public AddressEntity(AddressDO bean){
 		this.addressId = bean.getAddressId();
 		this.latitude = bean.getLatitude();
 		this.longitude = bean.getLongitude();
-		this.message = bean.getMessage();
 		this.detault = bean.getDetault();
 	}
 	
@@ -61,6 +64,22 @@ public class AddressEntity {
 	}
 	public void setDetault(Integer detault) {
 		this.detault = detault;
+	}
+
+	public String getNameAndhone() {
+		return nameAndhone;
+	}
+
+	public void setNameAndhone(String nameAndhone) {
+		this.nameAndhone = nameAndhone;
+	}
+
+	public String getAddressNameAndDoor() {
+		return addressNameAndDoor;
+	}
+
+	public void setAddressNameAndDoor(String addressNameAndDoor) {
+		this.addressNameAndDoor = addressNameAndDoor;
 	}
 
 	

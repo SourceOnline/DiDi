@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bootdo.api.commen.Constants;
 import com.bootdo.api.commen.JsonModel;
 import com.bootdo.api.entity.AddressEntity;
+import com.bootdo.api.util.PhoneUtil;
 import com.bootdo.common.annotation.Log;
-import com.bootdo.common.config.Constant;
 import com.bootdo.system.domain.AddressDO;
 import com.bootdo.system.service.AddressService;
 
@@ -24,6 +24,17 @@ import com.bootdo.system.service.AddressService;
 public class ApiAddressController extends ApiBaseController{
 	@Autowired
 	private AddressService addressService;
+	
+	@Log("获取地址详情")
+	@GetMapping("/getDetail")
+	public JsonModel getDetail(long addressId){
+		String flag = ApiCheckNull.getDetail(addressId);
+		if(null!=flag){
+			return failure(flag);
+		}
+		AddressDO address = addressService.get(addressId);
+		return successMap("address", address);
+	}
 	
 	@Log("app获取收藏地址列表")
 	@GetMapping("/getList")
@@ -46,6 +57,9 @@ public class ApiAddressController extends ApiBaseController{
 				}else{
 					entity.setType("");
 				}
+				entity.setAddressNameAndDoor(bean.getAddressName()+" "+bean.getDoor());
+				entity.setMessage(bean.getAddressDetail());
+				entity.setNameAndhone(bean.getUserName()+ " "+PhoneUtil.middleHide(bean.getPhone()));
 				backList.add(entity);
 			}
 		}
@@ -54,35 +68,43 @@ public class ApiAddressController extends ApiBaseController{
 
 	@Log("app教员设置工作位置")
 	@GetMapping("/setHome")
-	public JsonModel setHome(Float longitude, Float latitude,String token, String message) {
-		String flag = ApiCheckNull.setHome(longitude, latitude, message);
+	public JsonModel setHome(AddressDO address) {
+		String flag = ApiCheckNull.setHome(address);
 		if(null!=flag){
 			return failure(flag);
 		}
 		//检测家地址是否存在
-		AddressDO find= addressService.getByUserId(getUserId(),Constants.ADDRESS_TYPE_WORK);
+		//AddressDO find= addressService.getByUserId(getUserId(),Constants.ADDRESS_TYPE_WORK);
 		
-		if(null==find){
-			AddressDO address = new AddressDO();
+		if(null==address.getAddressId()||0==address.getAddressId()){
+//			AddressDO address = new AddressDO();
 			address.setUserId(getUserId());
-			address.setLongitude(longitude);
-			address.setLatitude(latitude);
 			address.setType(Constants.ADDRESS_TYPE_WORK);
 			address.setAddtime(new Date());
-			address.setMessage(message);
 			address.setEnable(1);
 			if(addressService.save(address)>0){
 				return success("设置成功");
 			}
 		}else{
-			find.setLongitude(longitude);
-			find.setLatitude(latitude);
-			find.setAddtime(new Date());
-			find.setMessage(message);
-			if(addressService.update(find)>0){
+			address.setAddtime(new Date());
+			if(addressService.update(address)>0){
 				return success("设置成功");
 			}
 		}
 		return success("操作失败");
+	}
+	
+	@Log("删除地址")
+	@GetMapping("/delete")
+	public JsonModel elete(long addressId){
+		String flag = ApiCheckNull.elete(addressId);
+		if(null!=flag){
+			return failure(flag);
+		}
+		if(addressService.remove(addressId)>0){
+			return success("操作成功");
+		}else{
+			return failure("操作失败");
+		}
 	}
 }
