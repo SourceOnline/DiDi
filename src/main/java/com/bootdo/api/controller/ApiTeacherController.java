@@ -37,7 +37,7 @@ public class ApiTeacherController extends ApiAddressController{
 		//用户头像
 		FileDO fileDO = fileService.get(user.getPicId());
 		if(null!=fileDO){
-			backEntity.setAvatar("file:///"+getUploadPath()+fileDO.getUrl());
+			backEntity.setAvatar(fileDO.getUrl());
 		}else{
 			backEntity.setAvatar("");
 		}
