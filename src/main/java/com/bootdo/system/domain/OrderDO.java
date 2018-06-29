@@ -36,9 +36,9 @@ public class OrderDO implements Serializable {
 	//地址id
 	private Long addressId;
 	//地址坐标x
-	private Float addressX;
+	private String addressX;
 	//地址坐标x
-	private Float addressY;
+	private String addressY;
 	//价格
 	private String price;
 	//授课时间
@@ -177,25 +177,25 @@ public class OrderDO implements Serializable {
 	/**
 	 * 设置：地址坐标x
 	 */
-	public void setAddressX(Float addressX) {
+	public void setAddressX(String addressX) {
 		this.addressX = addressX;
 	}
 	/**
 	 * 获取：地址坐标x
 	 */
-	public Float getAddressX() {
+	public String getAddressX() {
 		return addressX;
 	}
 	/**
 	 * 设置：地址坐标x
 	 */
-	public void setAddressY(Float addressY) {
+	public void setAddressY(String addressY) {
 		this.addressY = addressY;
 	}
 	/**
 	 * 获取：地址坐标x
 	 */
-	public Float getAddressY() {
+	public String getAddressY() {
 		return addressY;
 	}
 	/**

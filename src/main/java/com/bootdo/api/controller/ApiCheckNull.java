@@ -42,12 +42,20 @@ public class ApiCheckNull {
 	}
 	
 	public static String setHome(AddressDO address){
-		if(address.getLongitude()<-180||address.getLongitude()>180){
-			return "经度不合法";
+		if(StringUtils.isEmpty(address.getLongitude())){
+			return "经度不为空";
 		}
-		if(address.getLatitude()<-90||address.getLatitude()>90){
-			return "维度不合法";
+		if(StringUtils.isEmpty(address.getLatitude())){
+			return "维度不为空";
 		}
+//		int lon = Integer.parseInt(address.getLongitude().split(".")[0]);
+//		int lat = Integer.parseInt(address.getLatitude().split(".")[0]);
+//		if(lon<-180||lon>180){
+//			return "经度不合法";
+//		}
+//		if(lat<-90||lat>90){
+//			return "维度不合法";
+//		}
 		if(StringUtils.isEmpty(address.getAddressName())){
 			return "地址名称不为空";
 		}

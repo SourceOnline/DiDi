@@ -23,6 +23,9 @@ public class Constant {
     //数据状态（是否存在）
     public static final int ENABLE_EXIST = 1;
     public static final int ENABLE_DELETE = 0;
+    
+    //分页数据
+    public static final int PAGE_LIMIT = 10;//分页查询，数据长度
 
     //角色身份以及id（long）
     public static final long ROLE_TEACHER = 2L;//教员身份，也是教员身份id

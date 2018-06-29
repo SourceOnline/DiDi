@@ -33,6 +33,7 @@ public class ApiAddressController extends ApiBaseController{
 			return failure(flag);
 		}
 		AddressDO address = addressService.get(addressId);
+		address.setDefault((null != address.getDef() && address.getDef() == 1) ? true : false);
 		return successMap("address", address);
 	}
 	
@@ -73,25 +74,44 @@ public class ApiAddressController extends ApiBaseController{
 		if(null!=flag){
 			return failure(flag);
 		}
-		//检测家地址是否存在
-		//AddressDO find= addressService.getByUserId(getUserId(),Constants.ADDRESS_TYPE_WORK);
-		
+		Boolean ifDef = false;//是否需要更新默认值
+		if(null!=address.getDef()&&address.getDef()==1){
+			ifDef = true;
+		}
+		System.out.println(address.getLongitude());
+		System.out.println(address.getLatitude());
 		if(null==address.getAddressId()||0==address.getAddressId()){
-//			AddressDO address = new AddressDO();
 			address.setUserId(getUserId());
 			address.setType(Constants.ADDRESS_TYPE_WORK);
 			address.setAddtime(new Date());
 			address.setEnable(1);
-			if(addressService.save(address)>0){
-				return success("设置成功");
-			}
+			addressService.save(address);
+
 		}else{
 			address.setAddtime(new Date());
-			if(addressService.update(address)>0){
-				return success("设置成功");
-			}
+			addressService.update(address);
 		}
-		return success("操作失败");
+		if(ifDef){
+			//更新地址默认值,日期最新的为默认值
+			Map<String, Object> map = new HashMap<>();
+			map.put("userId", getUserId());
+			map.put("sort", "addtime");
+			map.put("order", "desc");
+			List<AddressDO> list = addressService.list(map);
+			if(null!=list&&list.size()>1){
+				for(int i=0;i<list.size(); i++){
+					AddressDO bean =  list.get(i);
+					if(i==0){
+						bean.setDef(1);
+					}else{
+						bean.setDef(0);
+					}
+					addressService.update(bean);
+				}
+			}
+			
+		}
+		return success("设置成功");
 	}
 	
 	@Log("删除地址")

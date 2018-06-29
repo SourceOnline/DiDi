@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.druid.util.StringUtils;
 import com.bootdo.api.commen.Constants;
 import com.bootdo.api.commen.JsonModel;
+import com.bootdo.api.entity.FindStuSelectEntity;
+import com.bootdo.api.entity.GradeAndNameEntity;
 import com.bootdo.api.entity.OrderDetailEntity;
+import com.bootdo.api.entity.SelectEntity;
+import com.bootdo.api.entity.SubjectEntity;
 import com.bootdo.api.entity.TeacherAroundEntity;
+import com.bootdo.api.util.GradesUtil;
 import com.bootdo.api.util.PositionUtil;
 import com.bootdo.common.annotation.Log;
 import com.bootdo.common.config.Constant;
@@ -23,9 +28,11 @@ import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.FileService;
 import com.bootdo.system.domain.AddressDO;
 import com.bootdo.system.domain.OrderDO;
+import com.bootdo.system.domain.SubjectDO;
 import com.bootdo.system.domain.UserDO;
 import com.bootdo.system.service.AddressService;
 import com.bootdo.system.service.OrderService;
+import com.bootdo.system.service.SubjectService;
 
 /**
  * @author geyy
@@ -41,6 +48,8 @@ public class ApiOrderControllser extends ApiBaseController{
 	private AddressService addressService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private SubjectService subjectService;
 	
 	@Log("app查询周边教员")
 	@GetMapping("/findTeacher")
@@ -49,6 +58,8 @@ public class ApiOrderControllser extends ApiBaseController{
 		if(null!=flag){
 			return failure(flag);
 		}
+		System.out.println(longitude);
+		System.out.println(latitude);
 		//返回信息
 		List<TeacherAroundEntity> teachers = new ArrayList<TeacherAroundEntity>();
 		//查询附近教员坐标
@@ -137,10 +148,11 @@ public class ApiOrderControllser extends ApiBaseController{
 	
 	@Log("app查询附近家教资源")
 	@GetMapping("/findStudent")
-	public JsonModel findStudent(Integer grade,String subjectId){
+	public JsonModel findStudent(Integer grade,String subjectId,String order,int pageIndex){
 		//科目/年级/
 		//时间,价格先不管
 		//教员地点
+		//排序-智能排序-口碑排序order
 		AddressDO addressDO = addressService.getByUserId(getUserId(), Constants.ADDRESS_TYPE_WORK);
 		if(null==addressDO){
 			return failure("工作地点还没设置");
@@ -151,13 +163,25 @@ public class ApiOrderControllser extends ApiBaseController{
 		if(null!=grade&&grade<=12&&grade>0){
 			map.put("grade", grade);
 		}
-		if(!StringUtils.isEmpty(subjectId)){
+		if(!StringUtils.isEmpty(subjectId)&&!subjectId.equals("0")){
 			map.put("subjectId", subjectId);
 		}
-		map.putAll(PositionUtil.findNeighPosition(addressDO.getLongitude(), addressDO.getLatitude(), Constants.POSITION_DISTANCE));
+		map.put("limit", Constant.PAGE_LIMIT);//步长
+		map.put("offset", 0);//开始索引，页码
+		if(0!=pageIndex){
+			map.put("offset", pageIndex);//开始索引，页码
+		}
+		//offset开始索引，limit步长
+		double d_lon = 114.38273;
+		double d_lat = 23.08383;
+		if(!StringUtils.isEmpty(addressDO.getLongitude())&&!StringUtils.isEmpty(addressDO.getLatitude())){
+			d_lon = Double.parseDouble(addressDO.getLongitude());
+			d_lat = Double.parseDouble(addressDO.getLatitude());
+		}
+		map.putAll(PositionUtil.findNeighPosition(d_lon, d_lat, Constants.POSITION_DISTANCE));
 		
 		List<OrderDO> orderList = orderService.list(map);
-		return successMap("orders", orderList);
+		return success(orderList);
 	}
 	
 	@Log("app接取家教任务")
@@ -209,6 +233,78 @@ public class ApiOrderControllser extends ApiBaseController{
 			}
 		}
 		return success("操作成功");
+	}
+	
+	@Log("app查询学生选择器")
+	@GetMapping("/findStuSelect")
+	public JsonModel findStuSelect(String style){
+		FindStuSelectEntity backEntity = new FindStuSelectEntity();
+		backEntity.setSubject_list(getSubject());
+		backEntity.setGrade_list(getGrade());
+		backEntity.setOrder_list(getOrder());
+		return successMap("select", backEntity);
+	}
+	
+	/**
+	 * 科目选择
+	 * */
+	public List<SelectEntity> getSubject(){
+		List<SelectEntity> backList = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", 1);
+		map.put("enable", 1);
+		List<SubjectDO> list = subjectService.list(map);
+		if(null!=list&&list.size()>0){
+			for(int i=0; i<list.size(); i++){
+				SelectEntity entity = new SelectEntity();
+				SubjectDO bean = list.get(i);
+				entity.setId(bean.getSubjectId());
+				entity.setName(bean.getName());
+				entity.setCode(bean.getCode());
+				entity.setSort(bean.getSort());
+				backList.add(entity);
+			}
+		}
+		return backList;
+	}
+	
+	/**
+	 * 年级选择
+	 * */
+	public List<SelectEntity> getGrade(){
+		List<SelectEntity> backList = new ArrayList<>();
+		for(int i=1; i<=12; i++){
+			SelectEntity entity = new SelectEntity();
+			entity.setId(i+"");
+			entity.setName(GradesUtil.getGradeBynum(i));
+			entity.setCode(i+"");
+			entity.setSort(i);
+			backList.add(entity);
+		}
+		return backList;
+	}
+	
+	/**
+	 * 排序选择
+	 * */
+	public List<SelectEntity> getOrder(){
+		List<SelectEntity> backList = new ArrayList<>();
+		SelectEntity entity = new SelectEntity();
+		entity.setId("1");
+		entity.setName("智能排序");
+		entity.setCode("1");
+		entity.setSort(1);
+		backList.add(entity);
+		
+		entity = new SelectEntity();
+		entity.setId("2");
+		entity.setName("口碑排序");
+		entity.setCode("2");
+		entity.setSort(2);
+		backList.add(entity);
+		
+		return backList;
 	}
 	
 	

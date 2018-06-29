@@ -20,8 +20,8 @@ public class OrderDetailEntity {
 	private String gradeName;// 年级名称
 	private String datetime;// 时间范围
 	private String address;// 地址
-	private Float addressX;// 地址坐标x
-	private Float addressY;// 地址坐标x
+	private String addressX;// 地址坐标x
+	private String addressY;// 地址坐标x
 	private String price;// 价格
 	private String message;// 备注
 	private String evaluate;// 评价
@@ -123,19 +123,19 @@ public class OrderDetailEntity {
 		this.address = address;
 	}
 
-	public Float getAddressX() {
+	public String getAddressX() {
 		return addressX;
 	}
 
-	public void setAddressX(Float addressX) {
+	public void setAddressX(String addressX) {
 		this.addressX = addressX;
 	}
 
-	public Float getAddressY() {
+	public String getAddressY() {
 		return addressY;
 	}
 
-	public void setAddressY(Float addressY) {
+	public void setAddressY(String addressY) {
 		this.addressY = addressY;
 	}
 

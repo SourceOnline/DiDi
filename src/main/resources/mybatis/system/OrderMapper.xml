@@ -22,6 +22,12 @@
 		  		  <if test="addressId != null and addressId != ''"> and address_id = #{addressId} </if>
 		  		  <if test="addressX != null and addressX != ''"> and address_x = #{addressX} </if>
 		  		  <if test="addressY != null and addressY != ''"> and address_y = #{addressY} </if>
+		  		  
+		  		  <if test="minlat != null and minlat != ''"> and address_y &gt;= #{minlat} </if>
+		  		  <if test="maxlat != null and maxlat != ''"> and address_y &lt;= #{maxlat} </if>
+		  		  <if test="minlng != null and minlng != ''"> and address_x &gt;= #{minlng} </if>
+		  		  <if test="maxlng != null and maxlng != ''"> and address_x &lt;= #{maxlng} </if>
+		  		  
 		  		  <if test="price != null and price != ''"> and price = #{price} </if>
 		  		  <if test="learnTime != null and learnTime != ''"> and learn_time = #{learnTime} </if>
 		  		  <if test="message != null and message != ''"> and message = #{message} </if>

@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author geyy
  * @email geyueyuan@qq.com
- * @date 2018-06-25 15:59:45
+ * @date 2018-06-28 10:46:47
  */
 public class AddressDO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,9 +26,9 @@ public class AddressDO implements Serializable {
 	//类型
 	private String type;
 	//经度
-	private Float longitude;
+	private String longitude;
 	//维度
-	private Float latitude;
+	private String latitude;
 	//省份
 	private String province;
 	//城市
@@ -46,11 +46,13 @@ public class AddressDO implements Serializable {
 	//楼栋和门号
 	private String door;
 	//默认值
-	private Integer detault;
+	private Integer def;
 	//添加时间
 	private Date addtime;
 	//是否删除
 	private Integer enable;
+	
+	private boolean isDefault;
 
 	/**
 	 * 设置：记录id
@@ -115,25 +117,25 @@ public class AddressDO implements Serializable {
 	/**
 	 * 设置：经度
 	 */
-	public void setLongitude(Float longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 	/**
 	 * 获取：经度
 	 */
-	public Float getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 	/**
 	 * 设置：维度
 	 */
-	public void setLatitude(Float latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 	/**
 	 * 获取：维度
 	 */
-	public Float getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 	/**
@@ -235,14 +237,14 @@ public class AddressDO implements Serializable {
 	/**
 	 * 设置：默认值
 	 */
-	public void setDetault(Integer detault) {
-		this.detault = detault;
+	public void setDef(Integer def) {
+		this.def = def;
 	}
 	/**
 	 * 获取：默认值
 	 */
-	public Integer getDetault() {
-		return detault;
+	public Integer getDef() {
+		return def;
 	}
 	/**
 	 * 设置：添加时间
@@ -269,6 +271,12 @@ public class AddressDO implements Serializable {
 		return enable;
 	}
 
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
 	@Override
 	public String toString() {
 		return "AddressDO{" +
@@ -289,7 +297,7 @@ public class AddressDO implements Serializable {
 			", addressName=" + addressName +
 			", addressDetail=" + addressDetail +
 			", door=" + door +
-			", detault=" + detault +
+			", def=" + def +
 			", addtime=" + addtime +
 			", enable=" + enable +
 					

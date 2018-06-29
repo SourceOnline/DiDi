@@ -36,6 +36,9 @@ public class PositionUtil {
 		map.put("minlng", minlng);
 		map.put("maxlng", maxlng);
 		
+		System.out.println(minlat+"-"+maxlat);
+		System.out.println(minlng+"-"+maxlng);
+		
 		return map;
 	}
 }

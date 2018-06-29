@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.system.dao.AddressDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.AddressDO">
-		select `address_id`,`user_id`,`user_name`,`phone`,`type`,`longitude`,`latitude`,`province`,`city`,`district`,`street`,`street_number`,`address_name`,`address_detail`,`door`,`detault`,`addtime`,`enable` from sys_address where address_id = #{value}
+		select `address_id`,`user_id`,`user_name`,`phone`,`type`,`longitude`,`latitude`,`province`,`city`,`district`,`street`,`street_number`,`address_name`,`address_detail`,`door`,`def`,`addtime`,`enable` from sys_address where address_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.AddressDO">
-		select `address_id`,`user_id`,`user_name`,`phone`,`type`,`longitude`,`latitude`,`province`,`city`,`district`,`street`,`street_number`,`address_name`,`address_detail`,`door`,`detault`,`addtime`,`enable` from sys_address
+		select `address_id`,`user_id`,`user_name`,`phone`,`type`,`longitude`,`latitude`,`province`,`city`,`district`,`street`,`street_number`,`address_name`,`address_detail`,`door`,`def`,`addtime`,`enable` from sys_address
         <where>  
 		  		  <if test="addressId != null and addressId != ''"> and address_id = #{addressId} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
@@ -23,7 +23,6 @@
 		  		  <if test="minlng != null and minlng != ''"> and longitude &gt;= #{minlng} </if>
 		  		  <if test="maxlng != null and maxlng != ''"> and longitude &lt;= #{maxlng} </if>
 		  		  
-		  		  
 		  		  <if test="province != null and province != ''"> and province = #{province} </if>
 		  		  <if test="city != null and city != ''"> and city = #{city} </if>
 		  		  <if test="district != null and district != ''"> and district = #{district} </if>
@@ -32,7 +31,7 @@
 		  		  <if test="addressName != null and addressName != ''"> and address_name = #{addressName} </if>
 		  		  <if test="addressDetail != null and addressDetail != ''"> and address_detail = #{addressDetail} </if>
 		  		  <if test="door != null and door != ''"> and door = #{door} </if>
-		  		  <if test="detault != null and detault != ''"> and detault = #{detault} </if>
+		  		  <if test="def != null and def != ''"> and def = #{def} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
 		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
 		  		</where>
@@ -67,7 +66,7 @@
 		  		  <if test="addressName != null and addressName != ''"> and address_name = #{addressName} </if>
 		  		  <if test="addressDetail != null and addressDetail != ''"> and address_detail = #{addressDetail} </if>
 		  		  <if test="door != null and door != ''"> and door = #{door} </if>
-		  		  <if test="detault != null and detault != ''"> and detault = #{detault} </if>
+		  		  <if test="def != null and def != ''"> and def = #{def} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
 		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
 		  		</where>
@@ -90,7 +89,7 @@
 			`address_name`, 
 			`address_detail`, 
 			`door`, 
-			`detault`, 
+			`def`, 
 			`addtime`, 
 			`enable`
 		)
@@ -110,7 +109,7 @@
 			#{addressName}, 
 			#{addressDetail}, 
 			#{door}, 
-			#{detault}, 
+			#{def}, 
 			#{addtime}, 
 			#{enable}
 		)
@@ -133,7 +132,7 @@
 			<if test="addressName != null">`address_name` = #{addressName}, </if>
 			<if test="addressDetail != null">`address_detail` = #{addressDetail}, </if>
 			<if test="door != null">`door` = #{door}, </if>
-			<if test="detault != null">`detault` = #{detault}, </if>
+			<if test="def != null">`def` = #{def}, </if>
 			<if test="addtime != null">`addtime` = #{addtime}, </if>
 			<if test="enable != null">`enable` = #{enable}</if>
 		</set>

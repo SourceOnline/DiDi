@@ -6,8 +6,8 @@ package com.bootdo.api.entity;
 public class TeacherAroundEntity {
 
 	private Long userId;// 用户id
-	private Float longitude;// 经度
-	private Float latitude;// 维度
+	private String longitude;// 经度
+	private String latitude;// 维度
 	private String avatar;// 头像
 	private String userName;//用户姓名
 	private String price;//授课价格
@@ -17,24 +17,24 @@ public class TeacherAroundEntity {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Float getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 
-	public Float getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getAvatar() {

@@ -19,6 +19,6 @@ public class Constants {
 	public final static String ADDRESS_TYPE_HOME = "HOME";//地址类型，家地址（学生地址）
 	public final static String ADDRESS_TYPE_WORK = "WORK";//地址类型，工作地址（教员地址）
 
-	public final static double  POSITION_DISTANCE = 10;//搜索范围(单位:千米)
+	public final static double  POSITION_DISTANCE = 100;//搜索范围(单位:千米)
 	
 }
