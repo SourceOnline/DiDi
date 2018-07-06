@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.bootdo.common.config.Constant;
 import com.bootdo.system.dao.OrderDao;
 import com.bootdo.system.domain.OrderDO;
 import com.bootdo.system.service.OrderService;
@@ -59,6 +60,24 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int batchRemove(Long[] orderIds){
 		return orderDao.batchRemove(orderIds);
+	}
+
+	/**
+	 * 分页查询
+	 * */
+	@Override
+	public List<OrderDO> pageList(Map<String, Object> map, Integer pageIndex, Integer pageSize) {
+		int index = Constant.PAGE_INDEX;//默认页码
+		int size = Constant.PAGE_SIZE;//默认每页数量
+		if(null!=pageIndex&&pageIndex>0){
+			index = pageIndex;
+		}
+		if(null!=pageSize){
+			size = pageSize;
+		}
+		map.put("limit", size);//步长
+		map.put("offset", (index-1)*size);//开始索引，页码
+		return orderDao.list(map);
 	}
 	
 }

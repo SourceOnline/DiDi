@@ -1,12 +1,12 @@
 package com.bootdo.api.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bootdo.api.commen.ApiSupport;
 import com.bootdo.common.config.BootdoConfig;
+import com.bootdo.common.service.DictService;
+import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.HttpContextUtils;
 import com.bootdo.system.domain.UserDO;
 import com.bootdo.system.service.UserService;
@@ -14,7 +14,11 @@ import com.bootdo.system.service.UserService;
 @Controller
 public class ApiBaseController extends ApiSupport{
 	@Autowired
-	BootdoConfig bootdoConfig;
+	protected BootdoConfig bootdoConfig;
+	@Autowired
+	protected DictService dictService;//字典
+	@Autowired
+	protected FileService fileService;//文件
 	@Autowired
 	protected UserService userService;
 

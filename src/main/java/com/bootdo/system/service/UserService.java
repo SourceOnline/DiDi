@@ -52,6 +52,14 @@ public interface UserService {
 	 */
     Map<String, Object> updatePersonalImg(MultipartFile file, String avatar_data, Long userId) throws Exception;
     
+	/**
+	 * 微信更新个人图片
+	 * @param file 图片
+	 * @param userId 用户ID
+	 * @throws Exception
+	 */
+    Map<String, Object> weChatUpdatePersonalImg(MultipartFile file, Long userId);
+    
     /**
      * api验证登陆身份，没有则自动登陆
      * */

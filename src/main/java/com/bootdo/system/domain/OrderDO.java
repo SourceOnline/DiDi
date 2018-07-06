@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author geyy
  * @email geyueyuan@qq.com
- * @date 2018-06-22 10:25:37
+ * @date 2018-07-02 16:49:00
  */
 public class OrderDO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -47,6 +47,8 @@ public class OrderDO implements Serializable {
 	private String message;
 	//评价
 	private String evaluate;
+	//类型
+	private String type;
 	//订单状态
 	private Integer status;
 	//添加时间
@@ -247,6 +249,18 @@ public class OrderDO implements Serializable {
 		return evaluate;
 	}
 	/**
+	 * 设置：
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	/**
+	 * 获取：
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
 	 * 设置：订单状态
 	 */
 	public void setStatus(Integer status) {
@@ -304,6 +318,7 @@ public class OrderDO implements Serializable {
 			", learnTime=" + learnTime +
 			", message=" + message +
 			", evaluate=" + evaluate +
+			", type=" + type +
 			", status=" + status +
 			", addtime=" + addtime +
 			", enable=" + enable +

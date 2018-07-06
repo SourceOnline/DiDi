@@ -42,5 +42,5 @@ public interface AddressService {
 	 * @return  搜索结果(坐标记录) 
 	 */ 
 	List<AddressDO> findNeighPosition(double longitude,  
-	        double latitude, double distance,String type);
+	        double latitude, double distance);
 }

@@ -2,6 +2,7 @@ package com.bootdo.system.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.SecurityUtils;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.druid.util.StringUtils;
 import com.bootdo.api.commen.Constants;
@@ -34,6 +37,7 @@ import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.BuildTree;
 import com.bootdo.common.utils.FileType;
 import com.bootdo.common.utils.FileUtil;
+import com.bootdo.common.utils.HttpContextUtils;
 import com.bootdo.common.utils.ImageUtils;
 import com.bootdo.common.utils.MD5Utils;
 import com.bootdo.common.utils.R;
@@ -257,6 +261,40 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw  new Exception("图片裁剪错误！！");
 		}
+		Map<String, Object> result = new HashMap<>();
+		if(sysFileService.save(sysFile)>0){
+			UserDO userDO = new UserDO();
+			userDO.setUserId(userId);
+			userDO.setPicId(sysFile.getId());
+			if(userMapper.update(userDO)>0){
+				result.put("url",sysFile.getUrl());
+			}
+		}
+		return result;
+    }
+    
+    @Override
+    public Map<String, Object> weChatUpdatePersonalImg(MultipartFile file,Long userId){
+//    	HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+//    	MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+//    	file =  req.getFile("file");
+		
+    	String fileName = file.getOriginalFilename();
+		System.out.println("fileName : "+fileName);
+		fileName = FileUtil.renameToUUID(fileName);
+		System.out.println("fileName : "+fileName);
+		FileDO sysFile = new FileDO(FileType.fileType(fileName), "/files/" + fileName, new Date());
+		
+		try {
+			FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Map<String, Object> result = new HashMap<>();
 		if(sysFileService.save(sysFile)>0){
 			UserDO userDO = new UserDO();

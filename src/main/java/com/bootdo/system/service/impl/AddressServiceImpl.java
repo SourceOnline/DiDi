@@ -62,7 +62,7 @@ public class AddressServiceImpl implements AddressService {
 	 * @return  搜索结果(坐标记录) 
 	 */ 
 	@Override
-	public List<AddressDO> findNeighPosition(double longitude, double latitude, double distance,String type) {
+	public List<AddressDO> findNeighPosition(double longitude, double latitude, double distance) {
 		//先计算查询点的经纬度范围
         double r = 6371;//地球半径千米
         double dis = distance;//范围(单位:千米)
@@ -80,7 +80,7 @@ public class AddressServiceImpl implements AddressService {
 		map.put("maxlat", maxlat);
 		map.put("minlng", minlng);
 		map.put("maxlng", maxlng);
-		map.put("type", type);
+		map.put("def", 1);//地址默认值
 		
 		return list(map);
 	}

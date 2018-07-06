@@ -28,6 +28,6 @@ class WebConfigurer extends WebMvcConfigurerAdapter {
          registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/address/**");
          registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/teacher/**");
          
-         //registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/test/**");
+         registry.addInterceptor(apiTokenInterceptor).addPathPatterns("/api/upload/**");
     }
 }

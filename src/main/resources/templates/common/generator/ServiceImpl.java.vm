@@ -36,6 +36,24 @@ public class ${className}ServiceImpl implements ${className}Service {
 		return ${classname}Dao.list(map);
 	}
 	
+	/**
+	 * 分页查询
+	 * */
+	@Override
+	public List<${className}DO> pageList(Map<String, Object> map, Integer pageIndex, Integer pageSize) {
+		int index = Constant.PAGE_INDEX;//默认页码
+		int size = Constant.PAGE_SIZE;//默认每页数量
+		if(null!=pageIndex&&pageIndex>0){
+			index = pageIndex;
+		}
+		if(null!=pageSize){
+			size = pageSize;
+		}
+		map.put("limit", size);//步长
+		map.put("offset", (index-1)*size);//开始索引，页码
+		return ${classname}Dao.list(map);
+	}
+	
 	@Override
 	public int count(Map<String, Object> map){
 		return ${classname}Dao.count(map);

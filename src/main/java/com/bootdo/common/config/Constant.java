@@ -25,17 +25,22 @@ public class Constant {
     public static final int ENABLE_DELETE = 0;
     
     //分页数据
-    public static final int PAGE_LIMIT = 10;//分页查询，数据长度
+    public static final int PAGE_INDEX = 1;//分页查询，默认页码
+    public static final int PAGE_SIZE = 10;//分页查询，默认每页数量
 
     //角色身份以及id（long）
     public static final long ROLE_TEACHER = 2L;//教员身份，也是教员身份id
     public static final long ROLE_STUDENT = 3L;//学员身份，也是学员身份id
     
     //订单状态
-    public static final int ORDER_STATUS_UNDO = 0;// 未处理
+    public final static int ORDER_STATUS_UNDO = 0;// 未处理
     public final static int ORDER_STATUS_ON = 1; // 接单中
     public final static int ORDER_STATUS_FINISH = 2; // 已完成
-	public final static int ORDER_STATUS_CANCLE = 3; // 撤销
+	public final static int ORDER_STATUS_CANCLE = 3; // 撤销，接单和完成时不能撤销
 	public final static int ORDER_STATUS_DELETE = 4; // 已删除
-	public final static int ORDER_STATUS_ADVANCE = 5; // 预约某人
+	//public final static int ORDER_STATUS_ADVANCE = 5; // 预约某人
+	
+	//订单类型
+	public final static String ORDER_TYPE_RESERVE = "1";//预约的
+	public final static String ORDER_TYPE_UNRESERVE = "0";//非预约的
 }

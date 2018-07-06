@@ -231,6 +231,7 @@ public class UserController extends BaseController {
 		Map<String, Object> result = new HashMap<>();
 		try {
 			result = userService.updatePersonalImg(file, avatar_data, getUserId());
+			
 		} catch (Exception e) {
 			return R.error("更新图像失败！");
 		}

@@ -25,6 +25,7 @@ public class OrderDetailEntity {
 	private String price;// 价格
 	private String message;// 备注
 	private String evaluate;// 评价
+	private String learnTime;//授课时间
 	private Integer status;// 订单状态
 	private String addtime;// 添加时间
 
@@ -48,6 +49,7 @@ public class OrderDetailEntity {
 		this.price = order.getPrice();
 		this.evaluate = order.getEvaluate();
 		this.status = order.getStatus();
+		this.learnTime = order.getLearnTime();
 		this.addtime = DateUtils.toDateTimeString(order.getAddtime());
 	}
 
@@ -193,6 +195,14 @@ public class OrderDetailEntity {
 
 	public void setTeacherPhone(String teacherPhone) {
 		this.teacherPhone = teacherPhone;
+	}
+
+	public String getLearnTime() {
+		return learnTime;
+	}
+
+	public void setLearnTime(String learnTime) {
+		this.learnTime = learnTime;
 	}
 
 }

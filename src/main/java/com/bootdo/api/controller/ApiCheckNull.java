@@ -118,6 +118,13 @@ public class ApiCheckNull {
 		return null;
 	}
 	
+	public static String cancleOrder(long orderId){
+		if(0==orderId){
+			return "orderId不为空";
+		}
+		return null;
+	}
+	
 	public static String teacherDetail(long userId){
 		if(0==userId){
 			return "userId不为空";
@@ -135,6 +142,20 @@ public class ApiCheckNull {
 	public static String elete(long addressId){
 		if(0==addressId){
 			return "地址id不为空";
+		}
+		return null;
+	}
+	
+	public static String myOrders(Integer status){
+		if(null==status){
+			return "状态不为空";
+		}
+		return null;
+	}
+	
+	public static String myTasks(Integer status){
+		if(null==status){
+			return "状态不为空";
 		}
 		return null;
 	}

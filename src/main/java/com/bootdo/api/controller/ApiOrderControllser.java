@@ -18,6 +18,7 @@ import com.bootdo.api.entity.FindStuSelectEntity;
 import com.bootdo.api.entity.GradeAndNameEntity;
 import com.bootdo.api.entity.OrderDetailEntity;
 import com.bootdo.api.entity.SelectEntity;
+import com.bootdo.api.entity.StudentAroundEntity;
 import com.bootdo.api.entity.SubjectEntity;
 import com.bootdo.api.entity.TeacherAroundEntity;
 import com.bootdo.api.util.GradesUtil;
@@ -26,6 +27,7 @@ import com.bootdo.common.annotation.Log;
 import com.bootdo.common.config.Constant;
 import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.PageUtils;
 import com.bootdo.system.domain.AddressDO;
 import com.bootdo.system.domain.OrderDO;
 import com.bootdo.system.domain.SubjectDO;
@@ -47,8 +49,6 @@ public class ApiOrderControllser extends ApiBaseController{
 	@Autowired
 	private AddressService addressService;
 	@Autowired
-	private FileService fileService;
-	@Autowired
 	private SubjectService subjectService;
 	
 	@Log("app查询周边教员")
@@ -63,7 +63,7 @@ public class ApiOrderControllser extends ApiBaseController{
 		//返回信息
 		List<TeacherAroundEntity> teachers = new ArrayList<TeacherAroundEntity>();
 		//查询附近教员坐标
-		List<AddressDO> addressList = addressService.findNeighPosition(longitude, latitude, 10, Constants.ADDRESS_TYPE_WORK);
+		List<AddressDO> addressList = addressService.findNeighPosition(longitude, latitude, 10);
 		if(null!=addressList&&addressList.size()>0){
 			for(int i=0; i<addressList.size(); i++){
 				AddressDO address = addressList.get(i);
@@ -102,14 +102,21 @@ public class ApiOrderControllser extends ApiBaseController{
 		if(null==addressDO){
 			return failure("地址有误");
 		}
+		order.setStatus(Constant.ORDER_STATUS_UNDO);//未处理状态
+		System.out.println("getTeacherUser : "+order.getTeacherUser());
+		//判断是否预约
 		if(null!=order.getTeacherUser()&&0==order.getTeacherUser()){
 			order.setTeacherUser(null);
+			order.setType(Constant.ORDER_TYPE_UNRESERVE);//非预约的
+			//order.setStatus(Constant.ORDER_STATUS_ADVANCE);//预约状态
+		}else{
+			order.setType(Constant.ORDER_TYPE_RESERVE);//预约
 		}
 		order.setAddressX(addressDO.getLongitude());
 		order.setAddressY(addressDO.getLatitude());
 		order.setAddress(addressDO.getAddressName()+" "+addressDO.getAddressDetail());
 		order.setLearnUser(getUserId());
-		order.setStatus(Constant.ORDER_STATUS_UNDO);//未处理状态
+		
 		order.setAddtime(new Date());
 		order.setEnable(Constant.ENABLE_EXIST);
 		orderService.save(order);
@@ -148,7 +155,7 @@ public class ApiOrderControllser extends ApiBaseController{
 	
 	@Log("app查询附近家教资源")
 	@GetMapping("/findStudent")
-	public JsonModel findStudent(Integer grade,String subjectId,String order,int pageIndex){
+	public JsonModel findStudent(Integer grade,String subjectId,String order,int page){
 		//科目/年级/
 		//时间,价格先不管
 		//教员地点
@@ -158,20 +165,15 @@ public class ApiOrderControllser extends ApiBaseController{
 			return failure("工作地点还没设置");
 		}
 		Map<String, Object> map = new HashMap<>();
-		map.put("status", Constant.ORDER_STATUS_UNDO);
+		map.put("status", Constant.ORDER_STATUS_UNDO+"");
 		map.put("enable", Constant.ENABLE_EXIST);
 		if(null!=grade&&grade<=12&&grade>0){
 			map.put("grade", grade);
 		}
-		if(!StringUtils.isEmpty(subjectId)&&!subjectId.equals("0")){
-			map.put("subjectId", subjectId);
-		}
-		map.put("limit", Constant.PAGE_LIMIT);//步长
-		map.put("offset", 0);//开始索引，页码
-		if(0!=pageIndex){
-			map.put("offset", pageIndex);//开始索引，页码
-		}
-		//offset开始索引，limit步长
+//		if(!StringUtils.isEmpty(subjectId)&&!subjectId.equals("0")){
+//			map.put("subjectId", subjectId);
+//		}
+		//设置查询范围
 		double d_lon = 114.38273;
 		double d_lat = 23.08383;
 		if(!StringUtils.isEmpty(addressDO.getLongitude())&&!StringUtils.isEmpty(addressDO.getLatitude())){
@@ -180,8 +182,31 @@ public class ApiOrderControllser extends ApiBaseController{
 		}
 		map.putAll(PositionUtil.findNeighPosition(d_lon, d_lat, Constants.POSITION_DISTANCE));
 		
-		List<OrderDO> orderList = orderService.list(map);
-		return success(orderList);
+		List<OrderDO> orderList = orderService.pageList(map, page, Constant.PAGE_SIZE);
+		
+		List<StudentAroundEntity> backList = new ArrayList<>();
+		if(null!=orderList&&orderList.size()>0){
+			for(int i=0; i<orderList.size(); i++){
+				OrderDO bean = orderList.get(i);
+				UserDO user = userService.get(bean.getLearnUser());
+				if(null!=user){
+					System.out.println(user.toString());
+					StudentAroundEntity entity = new StudentAroundEntity(bean);
+					//用户头像
+					FileDO fileDO = fileService.get(user.getPicId());
+					if(null!=fileDO){
+						entity.setAvatar(fileDO.getUrl());
+					}else{
+						entity.setAvatar("");
+					}
+					backList.add(entity);
+				}
+			}
+		}
+		int total = orderService.count(map);
+		PageUtils pageUtil = new PageUtils(backList, total);
+		
+		return success(pageUtil);
 	}
 	
 	@Log("app接取家教任务")
@@ -202,7 +227,7 @@ public class ApiOrderControllser extends ApiBaseController{
 		OrderDO order = orderService.get(orderId);
 		if(null!=order){
 			//预约或未开始
-			if(order.getStatus()==Constant.ORDER_STATUS_UNDO||order.getStatus()==Constant.ORDER_STATUS_ADVANCE){
+			if(order.getStatus()==Constant.ORDER_STATUS_UNDO){
 				order.setTeacherUser(getUserId());
 				order.setStatus(Constant.ORDER_STATUS_ON);
 				orderService.update(order);
@@ -211,7 +236,59 @@ public class ApiOrderControllser extends ApiBaseController{
 				return failure("订单发生变化或已经被接取");
 			}
 		}
-		return success("发布成功");
+		return success("接单成功");
+	}
+	
+	@Log("app查询我的订单(家长)")
+	@GetMapping("/myOrders")
+	public JsonModel myOrders(Integer status, Integer page){
+		String flag = ApiCheckNull.myOrders(status);
+		if(null!=flag){
+			return failure(flag);
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("learnUser", getUserId());
+		map.put("status", status+"");
+		map.put("enable", Constant.ENABLE_EXIST);
+		
+		List<OrderDO> orderList = orderService.pageList(map, page, Constant.PAGE_SIZE);
+		
+		int total = orderService.count(map);
+		PageUtils pageUtil = new PageUtils(orderList, total);
+		
+		orderService.pageList(map, null, 0);
+		
+		return success(pageUtil);
+	}
+	
+	@Log("app查询我的任务(教员)")
+	@GetMapping("/myTasks")
+	public JsonModel myTasks(Integer status, Integer page){
+		String flag = ApiCheckNull.myTasks(status);
+		if(null!=flag){
+			return failure(flag);
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("teacherUser", getUserId());
+		map.put("status", status+"");
+		map.put("type", Constant.ORDER_TYPE_UNRESERVE);//非预约
+		map.put("enable", Constant.ENABLE_EXIST);
+		
+		if(status==5){
+			map.put("status", 0+"");
+			map.put("type", Constant.ORDER_TYPE_RESERVE);//非预约
+		}
+		
+		List<OrderDO> orderList = orderService.pageList(map, page, Constant.PAGE_SIZE);
+		
+		int total = orderService.count(map);
+		PageUtils pageUtil = new PageUtils(orderList, total);
+		
+		orderService.pageList(map, null, 0);
+		
+		return success(pageUtil);
 	}
 	
 	@Log("app完成订单")
@@ -224,12 +301,34 @@ public class ApiOrderControllser extends ApiBaseController{
 		OrderDO order = orderService.get(orderId);
 		if(null!=order){
 			if(order.getLearnUser().equals(getUserId())){
-				order.setStatus(Constant.ORDER_STATUS_FINISH);
+				order.setStatus(Constant.ORDER_STATUS_FINISH);//完成
 				orderService.update(order);
 				//支付相关？？
 				//通知、推送？?
 				//积分？？
 				//
+			}
+		}
+		return success("操作成功");
+	}
+	
+	@Log("app撤销订单")
+	@GetMapping("/cancleOrder")
+	public JsonModel cancleOrder(long orderId){
+		String flag = ApiCheckNull.cancleOrder(orderId);
+		if(null!=flag){
+			return failure(flag);
+		}
+		OrderDO order = orderService.get(orderId);
+		if(null!=order){
+			//接单和完成时不能撤销
+			if(order.getStatus()==Constant.ORDER_STATUS_ON||order.getStatus()==Constant.ORDER_STATUS_FINISH){
+				return failure("不能撤销");
+			}
+			
+			if(order.getLearnUser().equals(getUserId())){
+				order.setStatus(Constant.ORDER_STATUS_CANCLE);//撤销
+				orderService.update(order);
 			}
 		}
 		return success("操作成功");

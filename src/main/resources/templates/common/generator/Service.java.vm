@@ -20,6 +20,11 @@ public interface ${className}Service {
 	
 	List<${className}DO> list(Map<String, Object> map);
 	
+	/**
+	 * 分页查询
+	 * */
+	List<${className}DO> pageList(Map<String, Object> map,Integer pageIndex,Integer pageSize);
+	
 	int count(Map<String, Object> map);
 	
 	int save(${className}DO ${classname});

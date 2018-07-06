@@ -20,6 +20,11 @@ public interface OrderService {
 	
 	List<OrderDO> list(Map<String, Object> map);
 	
+	/**
+	 * 分页查询
+	 * */
+	List<OrderDO> pageList(Map<String, Object> map,Integer pageIndex,Integer pageSize);
+	
 	int count(Map<String, Object> map);
 	
 	int save(OrderDO order);

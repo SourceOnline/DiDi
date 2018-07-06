@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.system.dao.OrderDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.OrderDO">
-		select `order_id`,`subject_id`,`subject`,`learn_user`,`teacher_user`,`grade`,`start`,`end`,`address`,`address_id`,`address_x`,`address_y`,`price`,`learn_time`,`message`,`evaluate`,`status`,`addtime`,`enable` from sys_order where order_id = #{value}
+		select `order_id`,`subject_id`,`subject`,`learn_user`,`teacher_user`,`grade`,`start`,`end`,`address`,`address_id`,`address_x`,`address_y`,`price`,`learn_time`,`message`,`evaluate`,`type`,`status`,`addtime`,`enable` from sys_order where order_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.OrderDO">
-		select `order_id`,`subject_id`,`subject`,`learn_user`,`teacher_user`,`grade`,`start`,`end`,`address`,`address_id`,`address_x`,`address_y`,`price`,`learn_time`,`message`,`evaluate`,`status`,`addtime`,`enable` from sys_order
+		select `order_id`,`subject_id`,`subject`,`learn_user`,`teacher_user`,`grade`,`start`,`end`,`address`,`address_id`,`address_x`,`address_y`,`price`,`learn_time`,`message`,`evaluate`,`type`,`status`,`addtime`,`enable` from sys_order
         <where>  
 		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
 		  		  <if test="subjectId != null and subjectId != ''"> and subject_id = #{subjectId} </if>
@@ -32,6 +32,7 @@
 		  		  <if test="learnTime != null and learnTime != ''"> and learn_time = #{learnTime} </if>
 		  		  <if test="message != null and message != ''"> and message = #{message} </if>
 		  		  <if test="evaluate != null and evaluate != ''"> and evaluate = #{evaluate} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  		  <if test="status != null and status != ''"> and status = #{status} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
 		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
@@ -64,10 +65,17 @@
 		  		  <if test="addressId != null and addressId != ''"> and address_id = #{addressId} </if>
 		  		  <if test="addressX != null and addressX != ''"> and address_x = #{addressX} </if>
 		  		  <if test="addressY != null and addressY != ''"> and address_y = #{addressY} </if>
+		  		  
+		  		  <if test="minlat != null and minlat != ''"> and address_y &gt;= #{minlat} </if>
+		  		  <if test="maxlat != null and maxlat != ''"> and address_y &lt;= #{maxlat} </if>
+		  		  <if test="minlng != null and minlng != ''"> and address_x &gt;= #{minlng} </if>
+		  		  <if test="maxlng != null and maxlng != ''"> and address_x &lt;= #{maxlng} </if>
+		  		  
 		  		  <if test="price != null and price != ''"> and price = #{price} </if>
 		  		  <if test="learnTime != null and learnTime != ''"> and learn_time = #{learnTime} </if>
 		  		  <if test="message != null and message != ''"> and message = #{message} </if>
 		  		  <if test="evaluate != null and evaluate != ''"> and evaluate = #{evaluate} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  		  <if test="status != null and status != ''"> and status = #{status} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addtime = #{addtime} </if>
 		  		  <if test="enable != null and enable != ''"> and enable = #{enable} </if>
@@ -92,6 +100,7 @@
 			`learn_time`, 
 			`message`, 
 			`evaluate`, 
+			`type`, 
 			`status`, 
 			`addtime`, 
 			`enable`
@@ -113,6 +122,7 @@
 			#{learnTime}, 
 			#{message}, 
 			#{evaluate}, 
+			#{type}, 
 			#{status}, 
 			#{addtime}, 
 			#{enable}
@@ -137,6 +147,7 @@
 			<if test="learnTime != null">`learn_time` = #{learnTime}, </if>
 			<if test="message != null">`message` = #{message}, </if>
 			<if test="evaluate != null">`evaluate` = #{evaluate}, </if>
+			<if test="type != null">`type` = #{type}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="addtime != null">`addtime` = #{addtime}, </if>
 			<if test="enable != null">`enable` = #{enable}</if>

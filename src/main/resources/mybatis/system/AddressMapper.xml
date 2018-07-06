@@ -58,6 +58,12 @@
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  		  <if test="longitude != null and longitude != ''"> and longitude = #{longitude} </if>
 		  		  <if test="latitude != null and latitude != ''"> and latitude = #{latitude} </if>
+		  		  
+		  		  <if test="minlat != null and minlat != ''"> and latitude &gt;= #{minlat} </if>
+		  		  <if test="maxlat != null and maxlat != ''"> and latitude &lt;= #{maxlat} </if>
+		  		  <if test="minlng != null and minlng != ''"> and longitude &gt;= #{minlng} </if>
+		  		  <if test="maxlng != null and maxlng != ''"> and longitude &lt;= #{maxlng} </if>
+		  		  
 		  		  <if test="province != null and province != ''"> and province = #{province} </if>
 		  		  <if test="city != null and city != ''"> and city = #{city} </if>
 		  		  <if test="district != null and district != ''"> and district = #{district} </if>
