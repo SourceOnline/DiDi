@@ -17,7 +17,7 @@ public class PositionUtil {
 	 * @param distance  搜索范围(单位:千米)   
 	 * @return  最大最小经纬度map集合，minlat、maxlat、minlng、maxlng
 	 */ 
-	public static Map<String, Object> findNeighPosition(double longitude, double latitude, double distance){
+	public static Map<String, Object> findNeighPosition(float longitude, float latitude, double distance){
 		//先计算查询点的经纬度范围
         double r = 6371;//地球半径千米
         double dis = distance;//范围(单位:千米)
@@ -36,6 +36,7 @@ public class PositionUtil {
 		map.put("minlng", minlng);
 		map.put("maxlng", maxlng);
 		
+		System.out.println(longitude+"-"+latitude);
 		System.out.println(minlat+"-"+maxlat);
 		System.out.println(minlng+"-"+maxlng);
 		

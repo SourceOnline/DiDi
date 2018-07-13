@@ -72,15 +72,21 @@ public class ApitokenServiceImpl implements ApitokenService {
 	}
 
 	@Override
-	public String saveLogin(long userId) {
+	public String saveLogin(long userId,String openId) {
 		ApitokenDO apitoken = (ApitokenDO) findByUserId(userId);
 		if(null!=apitoken){
 			apitoken.setLoginTime(new Date());
+			if(!StringUtils.isEmpty(openId)){
+				apitoken.setOpenId(openId);
+			}
 			update(apitoken);
 		}else{
 			apitoken = new ApitokenDO();
 			apitoken.setTokenId(IdUtils.getId());
 			apitoken.setUserId(userId);
+			if(!StringUtils.isEmpty(openId)){
+				apitoken.setOpenId(openId);
+			}
 			apitoken.setLoginTime(new Date());
 			apitoken.setStatus(1);
 			save(apitoken);
@@ -94,6 +100,21 @@ public class ApitokenServiceImpl implements ApitokenService {
 		if(null!=apitoken){
 			apitoken.setStatus(0);
 			update(apitoken);
+		}
+		return null;
+	}
+
+	@Override
+	public ApitokenDO findByOpenId(String openId) {
+		if(StringUtils.isEmpty(openId)){
+			return null;
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("openId", openId);
+		map.put("status", 1);
+		List<ApitokenDO> list = list(map);
+		if(null!=list&&list.size()>0){
+			return (ApitokenDO) list.get(0);
 		}
 		return null;
 	}

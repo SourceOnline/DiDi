@@ -155,15 +155,15 @@ public class ApiOrderControllser extends ApiBaseController{
 	
 	@Log("app查询附近家教资源")
 	@GetMapping("/findStudent")
-	public JsonModel findStudent(Integer grade,String subjectId,String order,int page){
+	public JsonModel findStudent(Float longitude, Float latitude,Integer grade,String subjectId,String order,int page){
 		//科目/年级/
 		//时间,价格先不管
 		//教员地点
 		//排序-智能排序-口碑排序order
-		AddressDO addressDO = addressService.getByUserId(getUserId(), Constants.ADDRESS_TYPE_WORK);
-		if(null==addressDO){
-			return failure("工作地点还没设置");
-		}
+//		AddressDO addressDO = addressService.getByUserId(getUserId(), Constants.ADDRESS_TYPE_WORK);
+//		if(null==addressDO){
+//			return failure("工作地点还没设置");
+//		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", Constant.ORDER_STATUS_UNDO+"");
 		map.put("enable", Constant.ENABLE_EXIST);
@@ -174,13 +174,13 @@ public class ApiOrderControllser extends ApiBaseController{
 //			map.put("subjectId", subjectId);
 //		}
 		//设置查询范围
-		double d_lon = 114.38273;
-		double d_lat = 23.08383;
-		if(!StringUtils.isEmpty(addressDO.getLongitude())&&!StringUtils.isEmpty(addressDO.getLatitude())){
-			d_lon = Double.parseDouble(addressDO.getLongitude());
-			d_lat = Double.parseDouble(addressDO.getLatitude());
-		}
-		map.putAll(PositionUtil.findNeighPosition(d_lon, d_lat, Constants.POSITION_DISTANCE));
+//		double d_lon = 114.38273;
+//		double d_lat = 23.08383;
+//		if(!StringUtils.isEmpty(addressDO.getLongitude())&&!StringUtils.isEmpty(addressDO.getLatitude())){
+//			d_lon = Double.parseDouble(addressDO.getLongitude());
+//			d_lat = Double.parseDouble(addressDO.getLatitude());
+//		}
+		map.putAll(PositionUtil.findNeighPosition(longitude, latitude, Constants.POSITION_DISTANCE));
 		
 		List<OrderDO> orderList = orderService.pageList(map, page, Constant.PAGE_SIZE);
 		

@@ -17,6 +17,35 @@ public class ApiCheckNull {
 		}
 		return null;
 	}
+	
+	public static String loginByOpenId(String openId){
+		if(StringUtils.isEmpty(openId)){
+			return "openId不为空";
+		}
+		return null;
+	}
+	
+	public static String weRegister(String openId,String username,String phone,String sex){
+		if(StringUtils.isEmpty(openId)){
+			return "openId不为空";
+		}
+		if(openId.equals("null")){
+			return "openId不为null";
+		}
+		if(StringUtils.isEmpty(username)){
+			return "用户名不为空";
+		}
+		if(StringUtils.isEmpty(phone)){
+			return "手机号码不为空";
+		}
+		if(StringUtils.isEmpty(sex)){
+			return "性别不为空";
+		}
+		if(!(sex.equals("男")||sex.equals("女"))){
+			return "性别不合法";
+		}
+		return null;
+	}
 
 	public static String register(UserDO user){
 		if(StringUtils.isEmpty(user.getUsername())){
@@ -159,4 +188,21 @@ public class ApiCheckNull {
 		}
 		return null;
 	}
+	
+	public static String updateUser(String username,String phone,String sex){
+		if(StringUtils.isEmpty(username)){
+			return "用户名不为空";
+		}
+		if(StringUtils.isEmpty(phone)){
+			return "手机号码不为空";
+		}
+		if(StringUtils.isEmpty(sex)){
+			return "性别不为空";
+		}
+		if(!(sex.equals("男")||sex.equals("女"))){
+			return "性别不合法";
+		}
+		return null;
+	}
+
 }

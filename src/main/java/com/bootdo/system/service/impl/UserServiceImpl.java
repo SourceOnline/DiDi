@@ -356,5 +356,14 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public UserDO get(Map<String, Object> map) {
+		List<UserDO> list = list(map);
+		if(null!=list&&list.size()>0){
+			return list.get(0);
+		}
+		return null;
+	}
+
 
 }

@@ -11,7 +11,7 @@ public class UserDO implements Serializable {
     //
     private Long userId;
     // 用户名
-    private String username;
+    private String username;//账号，一般不修改，用于登陆和密码盐加密
     // 用户真实姓名
     private String name;
     // 密码
@@ -52,6 +52,8 @@ public class UserDO implements Serializable {
     private String city;
     //所在地区
     private String district;
+    
+    private String tokenId;//token
 
     public Long getUserId() {
         return userId;
@@ -229,7 +231,15 @@ public class UserDO implements Serializable {
 		this.isTeacher = isTeacher;
 	}
 
-    @Override
+    public String getTokenId() {
+		return tokenId;
+	}
+
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
+	}
+
+	@Override
     public String toString() {
         return "UserDO{" +
                 "userId=" + userId +

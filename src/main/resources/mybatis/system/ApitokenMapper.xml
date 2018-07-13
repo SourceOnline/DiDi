@@ -4,13 +4,14 @@
 <mapper namespace="com.bootdo.system.dao.ApitokenDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.ApitokenDO">
-		select `token_id`,`user_id`,`login_time`,`logout_time`,`status`,`device_id`,`enable` from sys_apitoken where token_id = #{value}
+		select `token_id`,`open_id`,`user_id`,`login_time`,`logout_time`,`status`,`device_id`,`enable` from sys_apitoken where token_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.ApitokenDO">
-		select `token_id`,`user_id`,`login_time`,`logout_time`,`status`,`device_id`,`enable` from sys_apitoken
+		select `token_id`,`open_id`,`user_id`,`login_time`,`logout_time`,`status`,`device_id`,`enable` from sys_apitoken
         <where>  
 		  		  <if test="tokenId != null and tokenId != ''"> and token_id = #{tokenId} </if>
+		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="loginTime != null and loginTime != ''"> and login_time = #{loginTime} </if>
 		  		  <if test="logoutTime != null and logoutTime != ''"> and logout_time = #{logoutTime} </if>
@@ -35,6 +36,7 @@
 		select count(*) from sys_apitoken
 		 <where>  
 		  		  <if test="tokenId != null and tokenId != ''"> and token_id = #{tokenId} </if>
+		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="loginTime != null and loginTime != ''"> and login_time = #{loginTime} </if>
 		  		  <if test="logoutTime != null and logoutTime != ''"> and logout_time = #{logoutTime} </if>
@@ -48,6 +50,7 @@
 		insert into sys_apitoken
 		(
 			`token_id`, 
+			`open_id`, 
 			`user_id`, 
 			`login_time`, 
 			`logout_time`, 
@@ -58,6 +61,7 @@
 		values
 		(
 			#{tokenId}, 
+			#{openId}, 
 			#{userId}, 
 			#{loginTime}, 
 			#{logoutTime}, 
@@ -70,6 +74,7 @@
 	<update id="update" parameterType="com.bootdo.system.domain.ApitokenDO">
 		update sys_apitoken 
 		<set>
+			<if test="openId != null">`open_id` = #{openId}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="loginTime != null">`login_time` = #{loginTime}, </if>
 			<if test="logoutTime != null">`logout_time` = #{logoutTime}, </if>

@@ -12,5 +12,11 @@ public class IdUtils {
 	public static String getId() {
 		return UUID.randomUUID().toString();
 	}
+	
+	public static void main(String[] args){
+		String str = getId();
+		System.out.println(str);
+		System.out.println(str.length());
+	}
 
 }

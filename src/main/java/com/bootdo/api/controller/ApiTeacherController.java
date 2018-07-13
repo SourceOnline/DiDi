@@ -18,6 +18,13 @@ public class ApiTeacherController extends ApiAddressController{
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Log("app普通用户成为教员")
+	@GetMapping("/toTeacher")
+	public JsonModel toTeacher() {
+		userService.toTeacher(getUserId());
+		return success("操作成功！");
+	}
 
 	@Log("api获取教师信息")
 	@GetMapping("/teacherDetail")

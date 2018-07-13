@@ -1,10 +1,9 @@
 package com.bootdo.system.service;
 
-import com.bootdo.system.dao.ApitokenDao;
-import com.bootdo.system.domain.ApitokenDO;
-
 import java.util.List;
 import java.util.Map;
+
+import com.bootdo.system.domain.ApitokenDO;
 
 /**
  * 
@@ -32,7 +31,7 @@ public interface ApitokenService {
 	/**
 	 * app登陆，token保存
 	 * */
-	public String saveLogin(long userId);
+	public String saveLogin(long userId,String openId);
 	
 	/**
 	 * token设置离线（退出登陆）
@@ -43,4 +42,9 @@ public interface ApitokenService {
 	 * 根据userId查询
 	 * */
 	public ApitokenDO findByUserId(long userId);
+	
+	/**
+	 * 根据openId查询
+	 * */
+	public ApitokenDO findByOpenId(String openId);
 }

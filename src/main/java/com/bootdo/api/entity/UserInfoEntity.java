@@ -10,6 +10,7 @@ public class UserInfoEntity {
 	private String sex;//性别，男、女
 	private String avatar;// 头像
 	private boolean isTeacher;// 是否是教师
+	private String token;
 	// private Integer status;// 状态 0:禁用，1:正常
 
 	public UserInfoEntity(UserDO bean) {
@@ -64,6 +65,14 @@ public class UserInfoEntity {
 
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

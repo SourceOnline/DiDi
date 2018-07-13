@@ -46,6 +46,7 @@ System.out.println("token : " + tokenid);
 				if (null != user) {
 					System.out.println(user.toString());
 					user.setTeacher(userService.checkIfTeacher(user.getUserId()));
+					user.setTokenId(tokenid);
 					request.setAttribute("user", user);
 System.out.println("api 登陆拦截通过~");
 					// 判断是否需要重新登陆

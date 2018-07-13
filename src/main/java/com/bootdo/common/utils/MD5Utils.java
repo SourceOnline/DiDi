@@ -21,12 +21,16 @@ public class MD5Utils {
 				HASH_ITERATIONS).toHex();
 		System.out.println("username : "+username+"\n"+"pwd : "+pswd);
 		System.out.println("new pwd code : "+newPassword);
+		System.out.println(newPassword.length());
+		//00006b02-d54d-4080-8006-dfad62109790
+		//23a04de50aefb8206e3e4d9068ab11cd
+		//o1UjW5Y6GSSmuA50_xdA8XnuqVLI
 		return newPassword;
 	}
 	
 	public static void main(String[] args) {
 		String pwd = "111111";
-		String username = "abc";
+		String username = "副本";
 		MD5Utils.encrypt(username, pwd);
 		
 	}
