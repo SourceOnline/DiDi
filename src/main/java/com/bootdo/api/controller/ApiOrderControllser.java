@@ -149,6 +149,10 @@ public class ApiOrderControllser extends ApiBaseController{
 			orderEntity.setTecherName(teacher.getName());
 			orderEntity.setTeacherPhone(teacher.getMobile());
 		}
+		orderEntity.setSubjectName(order.getSubject());
+		if(null==orderEntity.getMessage()){
+			orderEntity.setMessage("");
+		}
 		
 		return successMap("order", orderEntity);
 	}
@@ -160,19 +164,19 @@ public class ApiOrderControllser extends ApiBaseController{
 		//时间,价格先不管
 		//教员地点
 		//排序-智能排序-口碑排序order
-//		AddressDO addressDO = addressService.getByUserId(getUserId(), Constants.ADDRESS_TYPE_WORK);
-//		if(null==addressDO){
-//			return failure("工作地点还没设置");
-//		}
+		AddressDO addressDO = addressService.getByUserId(getUserId(), Constants.ADDRESS_TYPE_WORK);
+		if(null==addressDO){
+			return failure("工作地点还没设置");
+		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", Constant.ORDER_STATUS_UNDO+"");
 		map.put("enable", Constant.ENABLE_EXIST);
 		if(null!=grade&&grade<=12&&grade>0){
 			map.put("grade", grade);
 		}
-//		if(!StringUtils.isEmpty(subjectId)&&!subjectId.equals("0")){
-//			map.put("subjectId", subjectId);
-//		}
+		if(!StringUtils.isEmpty(subjectId)&&!subjectId.equals("0")){
+			map.put("subjectId", subjectId);
+		}
 		//设置查询范围
 //		double d_lon = 114.38273;
 //		double d_lat = 23.08383;
@@ -257,7 +261,7 @@ public class ApiOrderControllser extends ApiBaseController{
 		int total = orderService.count(map);
 		PageUtils pageUtil = new PageUtils(orderList, total);
 		
-		orderService.pageList(map, null, 0);
+		//orderService.pageList(map, null, 0);
 		
 		return success(pageUtil);
 	}
@@ -286,7 +290,7 @@ public class ApiOrderControllser extends ApiBaseController{
 		int total = orderService.count(map);
 		PageUtils pageUtil = new PageUtils(orderList, total);
 		
-		orderService.pageList(map, null, 0);
+		//orderService.pageList(map, null, 0);
 		
 		return success(pageUtil);
 	}

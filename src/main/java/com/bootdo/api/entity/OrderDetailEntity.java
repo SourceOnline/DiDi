@@ -36,7 +36,7 @@ public class OrderDetailEntity {
 		this.orderId = order.getOrderId();
 		this.learnUser = order.getOrderId();
 		this.teacherUser = order.getTeacherUser();
-		this.gradeName = order.getGrade();
+		this.gradeName = GradesUtil.getGradeBynum(Integer.parseInt(order.getGrade()));
 		if (null != order.getStart() && null != order.getEnd()) {
 			this.datetime = DateUtils.toDateTimeString2(order.getStart()) + "-"
 					+ DateUtils.toDateTimeString2(order.getEnd());
